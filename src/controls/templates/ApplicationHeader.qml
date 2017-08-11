@@ -57,10 +57,10 @@ AbstractApplicationHeader {
     property bool backButtonEnabled: (!titleList.isTabBar && (!Settings.isMobile || Qt.platform.os == "ios"))
 
     onBackButtonEnabledChanged: {
-        if (backButtonEnabled) {
+        if (backButtonEnabled && !titleList.backButton) {
             var component = Qt.createComponent(Qt.resolvedUrl("private/BackButton.qml"));
             titleList.backButton = component.createObject(titleList.parent);
-        } else {
+        } else if (titleList.backButton) {
             titleList.backButton.destroy();
         }
     }
@@ -135,6 +135,15 @@ AbstractApplicationHeader {
             
         }
     }
+    Repeater {
+        model: __appWindow.pageStack.layers.depth -1
+        delegate: Heading {
+            text: __appWindow.pageStack.layers.get(modelData+1).title
+            color: header.background && header.background.color && header.background.color == Theme.highlightColor ? Theme.highlightedTextColor : Theme.textColor
+            Component.onCompleted: stack.push(this)
+            Component.onDestruction: stack.pop()
+        }
+    }
     ListView {
         id: titleList
         readonly property bool wideMode: typeof __appWindow.pageStack.wideMode !== "undefined" ?  __appWindow.pageStack.wideMode : titleList.wideMode
@@ -144,13 +153,7 @@ AbstractApplicationHeader {
         //uses this to have less strings comparisons
         property bool scrollMutex
         property bool isTabBar: header.headerStyle == ApplicationHeaderStyle.TabBar
-        Component.onCompleted: {
-            //only iOS and desktop systems put the back button on top left corner
-            if (header.backButtonEnabled) {
-                var component = Qt.createComponent(Qt.resolvedUrl("private/BackButton.qml"));
-                titleList.backButton = component.createObject(titleList.parent);
-            }
-        }
+
         property Item backButton
         clip: true
 
