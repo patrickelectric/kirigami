@@ -100,11 +100,6 @@ ScrollablePage {
                 onClicked: page.title = edit.text;
             }
         }
-        Controls.Button {
-            text: "Push a new layer"
-            anchors.horizontalCenter: parent.horizontalCenter
-            onClicked: pageStack.layers.push(Qt.resolvedUrl("LayersGallery.qml"));
-        }
     }
  
     

@@ -129,17 +129,11 @@ AbstractApplicationHeader {
         }
         initialItem: titleList
     }
-    Connections {
-        target: __appWindow.pageStack.layers
-        onDepthChanged: {
-            
-        }
-    }
     Repeater {
         model: __appWindow.pageStack.layers.depth -1
-        delegate: Heading {
-            text: __appWindow.pageStack.layers.get(modelData+1).title
-            color: header.background && header.background.color && header.background.color == Theme.highlightColor ? Theme.highlightedTextColor : Theme.textColor
+        delegate: Loader {
+            sourceComponent: header.pageDelegate
+            readonly property Page page: __appWindow.pageStack.layers.get(modelData+1)
             Component.onCompleted: stack.push(this)
             Component.onDestruction: stack.pop()
         }
