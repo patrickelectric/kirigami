@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.5
+import QtQuick.Controls 2.0 as QQC2
 import QtQuick.Layouts 1.2
 import "private"
 import org.kde.kirigami 2.0
@@ -120,6 +121,20 @@ AbstractApplicationHeader {
         opacity: 0.4
     }
 
+    QQC2.StackView {
+        id: stack
+        anchors {
+            fill: parent
+            leftMargin: titleList.scrollingLocked && titleList.wideMode ? 0 : titleList.backButton.width
+        }
+        initialItem: titleList
+    }
+    Connections {
+        target: __appWindow.pageStack.layers
+        onDepthChanged: {
+            
+        }
+    }
     ListView {
         id: titleList
         readonly property bool wideMode: typeof __appWindow.pageStack.wideMode !== "undefined" ?  __appWindow.pageStack.wideMode : titleList.wideMode
@@ -138,10 +153,7 @@ AbstractApplicationHeader {
         }
         property Item backButton
         clip: true
-        anchors {
-            fill: parent
-            leftMargin: titleList.scrollingLocked && titleList.wideMode ? 0 : backButton.width
-        }
+
         cacheBuffer: width ? Math.max(0, width * count) : 0
         displayMarginBeginning: __appWindow.pageStack.width * count
         orientation: ListView.Horizontal

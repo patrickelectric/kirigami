@@ -304,6 +304,7 @@ T.Control {
     function popLayer(page) {
         layersStack.pop();
     }
+    property alias layers: layersStack
 //END FUNCTIONS
 
     onInitialPageChanged: {

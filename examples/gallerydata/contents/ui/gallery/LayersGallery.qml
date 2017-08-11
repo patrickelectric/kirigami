@@ -44,17 +44,10 @@ ScrollablePage {
                 showPassiveNotification("Left action triggered")
             }
         }
-        right: Action {
-            iconName: "go-next"
-            text: "Right Action Text"
-            onTriggered: {
-                showPassiveNotification("Right action triggered")
-            }
-        }
         contextualActions: [
             Action {
                 text:"Action 1"
-                iconName: "bookmarks"
+                iconName: "go-next"
                 onTriggered: showPassiveNotification("Action 1 clicked")
             },
             Action {
@@ -79,12 +72,12 @@ ScrollablePage {
         Controls.Button {
             text: "Push A New Layer"
             anchors.horizontalCenter: parent.horizontalCenter
-            onClicked: pageStack.pushLayer(Qt.resolvedUrl("LayersGallery.qml"));
+            onClicked: pageStack.layers.push(Qt.resolvedUrl("LayersGallery.qml"));
         }
         Controls.Button {
             text: "Pop A Layer"
             anchors.horizontalCenter: parent.horizontalCenter
-            onClicked: pageStack.popLayer();
+            onClicked: pageStack.layers.pop();
         }
     }
  
