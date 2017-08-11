@@ -73,37 +73,18 @@ ScrollablePage {
         Label {
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
-            text: "This page is used to test multiple columns: you can push and pop an arbitrary number of pages, each new page will have a random implicit width between 8 and 35 grid units.\nIf you enlarge the window enough, you can test how the application behaves with multiple columns."
+            text: "This page is used to test multiple layers: it will cover all the columns"
         }
-        Item {
-            Layout.minimumWidth: Units.gridUnit *2
-            Layout.minimumHeight: Layout.minimumWidth
-        }
+
         Controls.Button {
-            text: "Push Another Page"
-            anchors.horizontalCenter: parent.horizontalCenter
-            onClicked: pageStack.push(Qt.resolvedUrl("MultipleColumnsGallery.qml"));
-        }
-        Controls.Button {
-            text: "Pop A Page"
-            anchors.horizontalCenter: parent.horizontalCenter
-            onClicked: pageStack.pop();
-        }
-        RowLayout {
-            anchors.horizontalCenter: parent.horizontalCenter
-            Controls.TextField {
-                id: edit
-                text: page.title
-            }
-            Controls.Button {
-                text: "Rename Page"
-                onClicked: page.title = edit.text;
-            }
-        }
-        Controls.Button {
-            text: "Push a new layer"
+            text: "Push A New Layer"
             anchors.horizontalCenter: parent.horizontalCenter
             onClicked: pageStack.pushLayer(Qt.resolvedUrl("LayersGallery.qml"));
+        }
+        Controls.Button {
+            text: "Pop A Layer"
+            anchors.horizontalCenter: parent.horizontalCenter
+            onClicked: pageStack.popLayer();
         }
     }
  

@@ -21,6 +21,7 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.2
 import QtQml.Models 2.2
 import QtQuick.Templates 2.0 as T
+import QtQuick.Controls 2.0 as QQC2
 import org.kde.kirigami 2.0
 
 /**
@@ -297,6 +298,12 @@ T.Control {
         }
     }
 
+    function pushLayer(page) {
+        layersStack.push(page);
+    }
+    function popLayer(page) {
+        layersStack.pop();
+    }
 //END FUNCTIONS
 
     onInitialPageChanged: {
@@ -323,9 +330,14 @@ T.Control {
             script: mainView.flick(100, 0)
         }
     }
+    QQC2.StackView {
+        id: layersStack
+        z: 99
+        anchors.fill: parent
+        initialItem: mainView
+    }
     ListView {
         id: mainView
-        z: 99
         anchors.fill: parent
         boundsBehavior: Flickable.StopAtBounds
         orientation: Qt.Horizontal
