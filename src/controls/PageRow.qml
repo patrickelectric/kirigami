@@ -298,6 +298,13 @@ T.Control {
         }
     }
 
+    /**
+     * layers: QtQuick.Controls.PageStack
+     * Access to the modal layers.
+     * Sometimes an application needs a modal page that always covers all the rows.
+     * For instance the full screen image of an image viewer or a settings page.
+     * @since 5.38
+     */
     property alias layers: layersStack
 //END FUNCTIONS
 
