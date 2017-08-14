@@ -93,7 +93,7 @@ AbstractApplicationHeader {
                 elide: Text.ElideRight
                 text: page ? page.title : ""
                 font.pixelSize: titleList.height / 1.6
-                height: parent.height
+                verticalAlignment: Text.AlignVCenter
                 Rectangle {
                     anchors {
                         bottom: parent.bottom

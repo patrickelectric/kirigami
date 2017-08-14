@@ -298,12 +298,6 @@ T.Control {
         }
     }
 
-    function pushLayer(page) {
-        layersStack.push(page);
-    }
-    function popLayer(page) {
-        layersStack.pop();
-    }
     property alias layers: layersStack
 //END FUNCTIONS
 
@@ -336,6 +330,13 @@ T.Control {
         z: 99
         anchors.fill: parent
         initialItem: mainView
+        function clear () {
+            //don't let it kill the main page row
+            var d = root.depth;
+            for (var i = 1; i < d; ++i) {
+                pop();
+            } 
+        }
     }
     ListView {
         id: mainView
