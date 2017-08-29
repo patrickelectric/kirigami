@@ -9,6 +9,7 @@ set(kirigami_SRCS
     enums.cpp
     desktopicon.cpp
     settings.cpp
+    theme.cpp
     ${kirigami_QM_LOADER}
     )
 

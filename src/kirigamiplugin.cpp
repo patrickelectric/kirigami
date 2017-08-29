@@ -23,6 +23,7 @@
 #include "enums.h"
 #include "desktopicon.h"
 #include "settings.h"
+#include "theme.h"
 
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -120,6 +121,9 @@ void KirigamiPlugin::registerTypes(const char *uri)
     qmlRegisterType(componentUrl(QStringLiteral("ItemViewHeader.qml")), uri, 2, 1, "ItemViewHeader");
     qmlRegisterType(componentUrl(QStringLiteral("AbstractApplicationItem.qml")), uri, 2, 1, "AbstractApplicationItem");
     qmlRegisterType(componentUrl(QStringLiteral("ApplicationItem.qml")), uri, 2, 1, "ApplicationItem");
+
+    qmlRegisterType<ColorScope>(uri, 2, 1, "ColorScope");
+    qmlRegisterType<Theme>(uri, 2, 1, "ThemeA");
 
     qmlProtectModule(uri, 2);
 }
