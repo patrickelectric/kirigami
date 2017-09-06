@@ -68,6 +68,7 @@ void KirigamiPlugin::registerTypes(const char *uri)
     }
     //At this point the fallback chain will be selected->org.kde.desktop->Fallback
 
+    Theme::themeDeclarative()->setQmlPath(componentUrl(QStringLiteral("Theme.qml")));
 
     //TODO: in this plugin it will end up something similar to
     //PlasmaCore's ColorScope?

@@ -24,12 +24,29 @@
 #include <QQuickItem>
 #include <QColor>
 
+class Theme;
+
+class ThemeDeclarative
+{
+public:
+    ThemeDeclarative();
+    virtual ~ThemeDeclarative();
+
+    void setQmlPath(const QUrl &path);
+    QObject *instance(const Theme *theme);
+
+private:
+    QUrl m_qmlPath;
+    QObject *m_declarativeTheme = nullptr;
+};
+
 class ColorScope : public QQuickItem
 {
     Q_OBJECT
 
     Q_PROPERTY(ColorScope *_kirigami_ColorScope READ kirigami_ColorScope CONSTANT)
     Q_PROPERTY(Context context READ context WRITE setContext NOTIFY contextChanged)
+    Q_PROPERTY(QPalette palette READ palette NOTIFY paletteChanged)
     Q_ENUMS(Context)
 
 public:
@@ -46,10 +63,13 @@ public:
     Context context() const;
     void setContext(Context context);
 
+    QPalette palette() const;
+
     ColorScope *kirigami_ColorScope();
 
 Q_SIGNALS:
     void contextChanged();
+    void paletteChanged();
 
 private:
     Context m_context = Window;
@@ -70,6 +90,8 @@ public:
     QColor textColor() const;
 
     static Theme *qmlAttachedProperties(QObject *object);
+
+    static ThemeDeclarative *themeDeclarative();
 
 Q_SIGNALS:
     void textColorChanged();

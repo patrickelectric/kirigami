@@ -44,6 +44,11 @@ QtObject {
     property color viewHoverColor: palette.highlight
     property color viewFocusColor: palette.highlight
 
+    property color complementaryTextColor: palette.base
+    property color complementaryBackgroundColor: palette.text
+    property color complementaryHoverColor: palette.highlight
+    property color complementaryFocusColor: palette.highlight
+
     property font defaultFont: fontMetrics.font
 
     property list<QtObject> children: [

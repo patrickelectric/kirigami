@@ -20,7 +20,50 @@
 #include "theme.h"
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QGuiApplication>
+#include <QPalette>
 #include <QDebug>
+
+
+
+class ThemeDeclarativeSingleton
+{
+public:
+    ThemeDeclarativeSingleton()
+    {}
+
+    ThemeDeclarative self;
+};
+
+Q_GLOBAL_STATIC(ThemeDeclarativeSingleton, privateThemeDeclarativeSelf)
+
+ThemeDeclarative::ThemeDeclarative()
+{}
+
+ThemeDeclarative::~ThemeDeclarative()
+{}
+
+void ThemeDeclarative::setQmlPath(const QUrl &path)
+{
+    m_qmlPath = path;
+}
+
+QObject *ThemeDeclarative::instance(const Theme *theme)
+{
+    if (m_declarativeTheme) {
+        return m_declarativeTheme;
+    }
+
+    QQmlEngine *engine = qmlEngine(theme->parent());
+    Q_ASSERT(engine);
+
+    QQmlComponent c(engine);
+    c.loadUrl(m_qmlPath);
+
+    m_declarativeTheme = c.create();
+    qWarning()<<"Declarative Theme"<<m_declarativeTheme;
+    return m_declarativeTheme;
+}
 
 
 ColorScope::ColorScope(QQuickItem *parent)
@@ -41,10 +84,24 @@ void ColorScope::setContext(ColorScope::Context context)
     if (m_context == context) {
         return;
     }
-qWarning()<<"JJJ"<<context;
+
     m_context = context;
     emit contextChanged();
 }
+
+QPalette ColorScope::palette() const
+{
+    if (m_context == Complementary) {
+        QPalette pal = qApp->palette();
+        //TODO: build the palette from the Theme declarative thing
+        pal.setBrush(QPalette::Button, Theme::themeDeclarative()->instance(nullptr)->property("complementaryBackgroundColor").value<QColor>());
+        pal.setBrush(QPalette::ButtonText, Theme::themeDeclarative()->instance(nullptr)->property("complementaryTextColor").value<QColor>());
+        return pal;
+    }
+        
+    return static_cast<QGuiApplication *>(QGuiApplication::instance())->palette();
+}
+
 
 ColorScope *ColorScope::kirigami_ColorScope()
 {
@@ -67,10 +124,27 @@ Theme::~Theme()
 
 QColor Theme::textColor() const
 {
-    if (m_scope && m_scope->context() == ColorScope::Complementary) {
-        return QColor(0, 255, 0, 255);
+    if (m_scope) {
+        switch (m_scope->context()) {
+        case ColorScope::Button:
+            return themeDeclarative()->instance(this)->property("buttonTextColor").value<QColor>();
+        case ColorScope::View:
+            return themeDeclarative()->instance(this)->property("viewTextColor").value<QColor>();
+        case ColorScope::Complementary:
+            return themeDeclarative()->instance(this)->property("complementaryTextColor").value<QColor>();
+        case ColorScope::Window:
+        default:
+            return themeDeclarative()->instance(this)->property("textColor").value<QColor>();
+        }
     }
+
+    return themeDeclarative()->instance(this)->property("textColor").value<QColor>();
     return m_textColor;
+}
+
+ThemeDeclarative *Theme::themeDeclarative()
+{
+    return &privateThemeDeclarativeSelf->self;
 }
 
 Theme *Theme::qmlAttachedProperties(QObject *object)
