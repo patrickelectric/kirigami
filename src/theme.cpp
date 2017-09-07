@@ -115,16 +115,63 @@ Theme::Theme(QObject *parent)
 {
     m_scope = QQmlEngine::contextForObject(parent)->contextProperty("_kirigami_ColorScope").value<ColorScope *>();
 
-    connect(m_scope, &ColorScope::contextChanged, this, &Theme::textColorChanged);
+    connect(m_scope, &ColorScope::contextChanged, this, &Theme::themeChanged);
+    //TODO: correct?
+    connect(qApp, &QGuiApplication::fontDatabaseChanged, this, &Theme::defaultFontChanged);
+
+    //now, connect all the declarative object signals to themeChanged, use the old syntax as they are all signals defined in QML
+    connect(themeDeclarative()->instance(this), SIGNAL(textColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(disabledTextColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(highlightColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(highlightedTextColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(backgroundColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(linkColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(visitedLinkColorChanged), this, SLOT(themeChanged));
+
+    connect(themeDeclarative()->instance(this), SIGNAL(buttonTextColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(buttonBackgroundColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(buttonHoverColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(buttonFocusColorChanged), this, SLOT(themeChanged));
+
+    connect(themeDeclarative()->instance(this), SIGNAL(viewTextColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(viewBackgroundColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(viewHoverColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(viewFocusColorChanged), this, SLOT(themeChanged));
+
+    connect(themeDeclarative()->instance(this), SIGNAL(complementaryTextColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(complementaryBackgroundColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(complementaryHoverColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(complementaryFocusColorChanged), this, SLOT(themeChanged));
 }
 
 Theme::~Theme()
 {
 }
 
+#define RESOLVECOLOR(colorName, upperCaseColor) \
+    if (m_scope) {\
+        switch (m_scope->context()) {\
+        case ColorScope::Button:\
+            return themeDeclarative()->instance(this)->property("button##upperCaseColor").value<QColor>();\
+        case ColorScope::View:\
+            return themeDeclarative()->instance(this)->property("view##upperCaseColor").value<QColor>();\
+        case ColorScope::Complementary:\
+            return themeDeclarative()->instance(this)->property("complementary##upperCaseColor").value<QColor>();\
+        case ColorScope::Window:\
+        default:\
+            return themeDeclarative()->instance(this)->property("colorName").value<QColor>();\
+        }\
+    }\
+    \
+    return themeDeclarative()->instance(this)->property("colorName").value<QColor>();\
+
+#define PROXYCOLOR(colorName, upperCaseColor) \
+    return themeDeclarative()->instance(this)->property("colorName").value<QColor>();
+
 QColor Theme::textColor() const
 {
-    if (m_scope) {
+    RESOLVECOLOR(textColor, TextColor)
+ /*   if (m_scope) {
         switch (m_scope->context()) {
         case ColorScope::Button:
             return themeDeclarative()->instance(this)->property("buttonTextColor").value<QColor>();
@@ -139,8 +186,107 @@ QColor Theme::textColor() const
     }
 
     return themeDeclarative()->instance(this)->property("textColor").value<QColor>();
-    return m_textColor;
+    return m_textColor;*/
 }
+
+QColor Theme::disabledTextColor() const
+{
+    RESOLVECOLOR(disabledTextColor, DisabledTextColor)
+}
+
+QColor Theme::highlightColor() const
+{
+    RESOLVECOLOR(highlightColor, HighlightColor)
+}
+
+QColor Theme::highlightedTextColor() const
+{
+    RESOLVECOLOR(highlightedTextColor, HighlightedTextColor)
+}
+
+QColor Theme::backgroundColor() const
+{
+    RESOLVECOLOR(backgroundColor, BackgroundColor)
+}
+
+QColor Theme::linkColor() const
+{
+    RESOLVECOLOR(linkColor, LinkColor)
+}
+
+QColor Theme::visitedLinkColor() const
+{
+    RESOLVECOLOR(visitedLinkColor, VisitedLinkColor)
+}
+
+QColor Theme::buttonTextColor() const
+{
+    PROXYCOLOR(buttonTextColor, ButtonTextColor)
+}
+
+QColor Theme::Theme::buttonBackgroundColor() const
+{
+    PROXYCOLOR(buttonBackgroundColor, ButtonBackgroundColor)
+}
+
+QColor Theme::buttonHoverColor() const
+{
+    PROXYCOLOR(buttonHoverColor, ButtonHoverColor)
+}
+
+QColor Theme::Theme::buttonFocusColor() const
+{
+    PROXYCOLOR(buttonFocusColor, ButtonFocusColor)
+}
+
+
+QColor Theme::viewTextColor() const
+{
+    PROXYCOLOR(viewTextColor, ViewTextColor)
+}
+
+QColor Theme::viewBackgroundColor() const
+{
+    PROXYCOLOR(viewBackgroundColor, ViewBackgroundColor)
+}
+
+QColor Theme::viewHoverColor() const
+{
+    PROXYCOLOR(viewHoverColor, ViewHoverColor)
+}
+
+QColor Theme::viewFocusColor() const
+{
+    PROXYCOLOR(viewFocusColor, ViewFocusColor)
+}
+
+
+QColor Theme::complementaryTextColor() const
+{
+    PROXYCOLOR(complementaryTextColor, ComplementaryTextColor)
+}
+
+QColor Theme::complementaryBackgroundColor() const
+{
+    PROXYCOLOR(complementaryBackgroundColor, ComplementaryBackgroundColor)
+}
+
+QColor Theme::complementaryHoverColor() const
+{
+    PROXYCOLOR(complementaryHoverColor, ComplementaryHoverColor)
+}
+
+QColor Theme::complementaryFocusColor() const
+{
+    PROXYCOLOR(complementaryFocusColor, ComplementaryFocusColor)
+}
+
+QFont Theme::defaultFont() const
+{
+    return qApp->font();
+}
+
+
 
 ThemeDeclarative *Theme::themeDeclarative()
 {

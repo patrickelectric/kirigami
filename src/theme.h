@@ -80,7 +80,30 @@ class Theme : public QObject
     Q_OBJECT
 
     // colors
-    Q_PROPERTY(QColor textColor READ textColor NOTIFY textColorChanged)
+    Q_PROPERTY(QColor textColor READ textColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor disabledTextColor READ disabledTextColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor highlightColor READ highlightColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor highlightedTextColor READ highlightedTextColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor linkColor READ linkColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor visitedLinkColor READ visitedLinkColor NOTIFY themeChanged)
+
+    Q_PROPERTY(QColor buttonTextColor READ buttonTextColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor buttonBackgroundColor READ buttonBackgroundColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor buttonHoverColor READ buttonHoverColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor buttonFocusColor READ buttonFocusColor NOTIFY themeChanged)
+
+    Q_PROPERTY(QColor viewTextColor READ viewTextColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor viewBackgroundColor READ viewBackgroundColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor viewHoverColor READ viewHoverColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor viewFocusColor READ viewFocusColor NOTIFY themeChanged)
+
+    Q_PROPERTY(QColor complementaryTextColor READ complementaryTextColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor complementaryBackgroundColor READ complementaryBackgroundColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor complementaryHoverColor READ complementaryHoverColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor complementaryFocusColor READ complementaryFocusColor NOTIFY themeChanged)
+
+    Q_PROPERTY(QFont defaultFont READ defaultFont NOTIFY defaultFontChanged)
 
 public:
     explicit Theme(QObject *parent = 0);
@@ -88,13 +111,37 @@ public:
 
 
     QColor textColor() const;
+    QColor disabledTextColor() const;
+    QColor highlightColor() const;
+    QColor highlightedTextColor() const;
+    QColor backgroundColor() const;
+    QColor linkColor() const;
+    QColor visitedLinkColor() const;
+
+    QColor buttonTextColor() const;
+    QColor buttonBackgroundColor() const;
+    QColor buttonHoverColor() const;
+    QColor buttonFocusColor() const;
+
+    QColor viewTextColor() const;
+    QColor viewBackgroundColor() const;
+    QColor viewHoverColor() const;
+    QColor viewFocusColor() const;
+
+    QColor complementaryTextColor() const;
+    QColor complementaryBackgroundColor() const;
+    QColor complementaryHoverColor() const;
+    QColor complementaryFocusColor() const;
+
+    QFont defaultFont() const;
 
     static Theme *qmlAttachedProperties(QObject *object);
 
     static ThemeDeclarative *themeDeclarative();
 
 Q_SIGNALS:
-    void textColorChanged();
+    void themeChanged();
+    void defaultFontChanged();
 
 private:
     ColorScope *m_scope;
