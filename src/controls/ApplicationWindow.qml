@@ -19,7 +19,7 @@
 
 import QtQuick 2.5
 import "templates/private"
-import org.kde.kirigami 2.0 as Kirigami
+import org.kde.kirigami 2.1 as Kirigami
 import QtGraphicalEffects 1.0
 
 /**

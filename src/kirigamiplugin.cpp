@@ -83,7 +83,7 @@ void KirigamiPlugin::registerTypes(const char *uri)
 
     qmlRegisterUncreatableType<ApplicationHeaderStyle>(uri, 2, 0, "ApplicationHeaderStyle", "Cannot create objects of type ApplicationHeaderStyle");
 
-    qmlRegisterSingletonType(componentUrl(QStringLiteral("Theme.qml")), uri, 2, 0, "Theme");
+    //qmlRegisterSingletonType(componentUrl(QStringLiteral("Theme.qml")), uri, 2, 0, "Theme");
     qmlRegisterSingletonType(componentUrl(QStringLiteral("Units.qml")), uri, 2, 0, "Units");
 
     qmlRegisterType(componentUrl(QStringLiteral("Action.qml")), uri, 2, 0, "Action");
@@ -124,7 +124,7 @@ void KirigamiPlugin::registerTypes(const char *uri)
     qmlRegisterType(componentUrl(QStringLiteral("ApplicationItem.qml")), uri, 2, 1, "ApplicationItem");
 
     qmlRegisterType<ColorScope>(uri, 2, 1, "ColorScope");
-    qmlRegisterType<Theme>(uri, 2, 1, "ThemeA");
+    qmlRegisterType<Theme>(uri, 2, 0, "Theme");
 
     qmlProtectModule(uri, 2);
 }

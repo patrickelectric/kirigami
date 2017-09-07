@@ -120,28 +120,28 @@ Theme::Theme(QObject *parent)
     connect(qApp, &QGuiApplication::fontDatabaseChanged, this, &Theme::defaultFontChanged);
 
     //now, connect all the declarative object signals to themeChanged, use the old syntax as they are all signals defined in QML
-    connect(themeDeclarative()->instance(this), SIGNAL(textColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(disabledTextColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(highlightColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(highlightedTextColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(backgroundColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(linkColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(visitedLinkColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(textColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(disabledTextColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(highlightColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(highlightedTextColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(backgroundColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(linkColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(visitedLinkColorChanged()), this, SIGNAL(themeChanged()));
 
-    connect(themeDeclarative()->instance(this), SIGNAL(buttonTextColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(buttonBackgroundColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(buttonHoverColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(buttonFocusColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(buttonTextColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(buttonBackgroundColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(buttonHoverColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(buttonFocusColorChanged()), this, SIGNAL(themeChanged()));
 
-    connect(themeDeclarative()->instance(this), SIGNAL(viewTextColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(viewBackgroundColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(viewHoverColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(viewFocusColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(viewTextColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(viewBackgroundColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(viewHoverColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(viewFocusColorChanged()), this, SIGNAL(themeChanged()));
 
-    connect(themeDeclarative()->instance(this), SIGNAL(complementaryTextColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(complementaryBackgroundColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(complementaryHoverColorChanged), this, SLOT(themeChanged));
-    connect(themeDeclarative()->instance(this), SIGNAL(complementaryFocusColorChanged), this, SLOT(themeChanged));
+    connect(themeDeclarative()->instance(this), SIGNAL(complementaryTextColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(complementaryBackgroundColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(complementaryHoverColorChanged()), this, SIGNAL(themeChanged()));
+    connect(themeDeclarative()->instance(this), SIGNAL(complementaryFocusColorChanged()), this, SIGNAL(themeChanged()));
 }
 
 Theme::~Theme()
@@ -159,14 +159,14 @@ Theme::~Theme()
             return themeDeclarative()->instance(this)->property("complementary##upperCaseColor").value<QColor>();\
         case ColorScope::Window:\
         default:\
-            return themeDeclarative()->instance(this)->property("colorName").value<QColor>();\
+            return themeDeclarative()->instance(this)->property(#colorName).value<QColor>();\
         }\
     }\
-    \
-    return themeDeclarative()->instance(this)->property("colorName").value<QColor>();\
+qWarning()<< "\""#colorName"\""<<themeDeclarative()->instance(this)->property(#colorName);\
+    return themeDeclarative()->instance(this)->property(#colorName).value<QColor>();\
 
 #define PROXYCOLOR(colorName, upperCaseColor) \
-    return themeDeclarative()->instance(this)->property("colorName").value<QColor>();
+    return themeDeclarative()->instance(this)->property(#colorName).value<QColor>();
 
 QColor Theme::textColor() const
 {
