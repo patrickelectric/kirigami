@@ -222,7 +222,7 @@ T2.Page {
      *
      * @since 2.2
      */
-    property alias colorContext: colorScope.context
+    property alias colorScope: colorScope
 
     /**
      * emitted When the application requests a Back action

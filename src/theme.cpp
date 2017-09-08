@@ -183,7 +183,6 @@ QStringList Theme::keys() const
         case ColorScope::View:\
             return themeDeclarative()->instance(this)->property("view"#upperCaseColor).value<QColor>();\
         case ColorScope::Complementary:\
-            qWarning()<<"polluzione"<<"complementary"#upperCaseColor<<themeDeclarative()->instance(this)->property("complementary"#upperCaseColor).value<QColor>();\
             return themeDeclarative()->instance(this)->property("complementary"#upperCaseColor).value<QColor>();\
         case ColorScope::Window:\
         default:\

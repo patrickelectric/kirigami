@@ -19,7 +19,7 @@
 
 import QtQuick 2.1
 import QtQuick.Layouts 1.2
-import org.kde.kirigami 2.0
+import org.kde.kirigami 2.1
 import "private"
 
 /**
@@ -101,23 +101,26 @@ Page {
      */
     property bool keyboardNavigationEnabled: true
 
-    colorContext: flickable && flickable.hasOwnProperty("model") ? Kirigami.ColorScope.View : Kirigami.ColorScope.Window
+    colorScope.context: flickable && flickable.hasOwnProperty("model") ? ColorScope.View : ColorScope.Window
 
     RefreshableScrollView {
         id: scrollView
         z: 0
         //child of root as it shouldn't have margins
-        parent: root
+        parent: root.colorScope
         topPadding: (applicationWindow() && applicationWindow().header ? applicationWindow().header.preferredHeight : 0) + (contentItem == flickable ? 0 : root.topPadding)
         leftPadding: root.leftPadding
         rightPadding: root.rightPadding
         bottomPadding: contentItem == flickable ? 0 : root.bottomPadding
         anchors {
             fill: parent
-            topMargin: root.header ? root.header.height : 0
-            bottomMargin: root.footer ? root.footer.height : 0
+            topMargin: -root.topPadding + (root.header ? root.header.height : 0)
+            bottomMargin: -root.bottomPadding + (root.footer ? root.footer.height : 0)
+            leftMargin: -root.leftPadding
+            rightMargin: -root.rightPadding
         }
     }
+    
 
     anchors.topMargin: 0
 
