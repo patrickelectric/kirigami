@@ -101,6 +101,8 @@ Page {
      */
     property bool keyboardNavigationEnabled: true
 
+    colorContext: flickable && flickable.hasOwnProperty("model") ? Kirigami.ColorScope.View : Kirigami.ColorScope.Window
+
     RefreshableScrollView {
         id: scrollView
         z: 0

@@ -22,6 +22,7 @@ import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.0
 
 ScrollablePage {
+    id: page
     title: "Colors"
 
    // leftPadding: 20//Units.gridUnit
@@ -31,9 +32,10 @@ ScrollablePage {
     }
     function getkeys() {
         var keys = [];
-        for(var v in Theme) {
-            if (endsWith(v, "Color"))
-                keys.push(v);
+        
+        for(var v in page.Theme.keys) {
+            if (endsWith(page.Theme.keys[v], "Color"))
+                keys.push(page.Theme.keys[v]);
         }
         keys.sort();
         return keys;

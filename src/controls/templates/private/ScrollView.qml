@@ -18,7 +18,7 @@
  */
 import QtQuick 2.5
 import QtQuick.Controls 2.0 
-import org.kde.kirigami 2.0
+import org.kde.kirigami 2.1
 
 MouseArea {
     id: root
@@ -81,10 +81,13 @@ MouseArea {
         //flickableItem.ScrollBar.vertical.anchors.bottom = root.bottom
     }
 
+    property alias colorContext: flickableParent.context
+
     //NOTE: use this instead of anchors as crashes on some Qt 5.8 checkouts
     onHeightChanged: flickableItem.ScrollBar.vertical.height = root.height
-    Item {
+    ColorScope {
         id: flickableParent
+        context: flickableItem && flickableItem.hasOwnProperty("model") ? ColorScope.View : ColorScope.Window
         anchors {
             fill: parent
         }

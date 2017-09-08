@@ -104,6 +104,8 @@ class Theme : public QObject
     Q_PROPERTY(QColor complementaryFocusColor READ complementaryFocusColor NOTIFY themeChanged)
 
     Q_PROPERTY(QFont defaultFont READ defaultFont NOTIFY defaultFontChanged)
+    //FIXME: this is due https://bugreports.qt.io/browse/QTBUG-63089
+    Q_PROPERTY(QStringList keys READ keys CONSTANT)
 
 public:
     explicit Theme(QObject *parent = 0);
@@ -134,6 +136,8 @@ public:
     QColor complementaryFocusColor() const;
 
     QFont defaultFont() const;
+
+    QStringList keys() const;
 
     static Theme *qmlAttachedProperties(QObject *object);
 

@@ -113,9 +113,24 @@ ColorScope *ColorScope::kirigami_ColorScope()
 Theme::Theme(QObject *parent)
     : QObject(parent)
 {
-    m_scope = QQmlEngine::contextForObject(parent)->contextProperty("_kirigami_ColorScope").value<ColorScope *>();
+    m_scope = qobject_cast<ColorScope *>(parent);
 
-    connect(m_scope, &ColorScope::contextChanged, this, &Theme::themeChanged);
+    if (!m_scope) {
+        m_scope = QQmlEngine::contextForObject(parent)->contextProperty("_kirigami_ColorScope").value<ColorScope *>();
+    }
+    if (!m_scope) {
+        QQuickItem *candidate = qobject_cast<QQuickItem *>(parent);
+        while (candidate) {
+            if ((m_scope = qobject_cast<ColorScope *>(candidate))) {
+                break;
+            }
+            candidate = candidate->parentItem();
+        }
+    }
+
+    if (m_scope) {
+        connect(m_scope, &ColorScope::contextChanged, this, &Theme::themeChanged);
+    }
     //TODO: correct?
     connect(qApp, &QGuiApplication::fontDatabaseChanged, this, &Theme::defaultFontChanged);
 
@@ -148,21 +163,33 @@ Theme::~Theme()
 {
 }
 
+QStringList Theme::keys() const
+{
+    QStringList props;
+    for (int i = metaObject()->propertyOffset(); i < metaObject()->propertyCount(); ++i) {
+        const QString prop = metaObject()->property(i).name();
+        if (prop != "keys") {
+            props << prop;
+        }
+    }
+    return props;
+}
+
 #define RESOLVECOLOR(colorName, upperCaseColor) \
     if (m_scope) {\
         switch (m_scope->context()) {\
         case ColorScope::Button:\
-            return themeDeclarative()->instance(this)->property("button##upperCaseColor").value<QColor>();\
+            return themeDeclarative()->instance(this)->property("button"#upperCaseColor).value<QColor>();\
         case ColorScope::View:\
-            return themeDeclarative()->instance(this)->property("view##upperCaseColor").value<QColor>();\
+            return themeDeclarative()->instance(this)->property("view"#upperCaseColor).value<QColor>();\
         case ColorScope::Complementary:\
-            return themeDeclarative()->instance(this)->property("complementary##upperCaseColor").value<QColor>();\
+            qWarning()<<"polluzione"<<"complementary"#upperCaseColor<<themeDeclarative()->instance(this)->property("complementary"#upperCaseColor).value<QColor>();\
+            return themeDeclarative()->instance(this)->property("complementary"#upperCaseColor).value<QColor>();\
         case ColorScope::Window:\
         default:\
             return themeDeclarative()->instance(this)->property(#colorName).value<QColor>();\
         }\
     }\
-qWarning()<< "\""#colorName"\""<<themeDeclarative()->instance(this)->property(#colorName);\
     return themeDeclarative()->instance(this)->property(#colorName).value<QColor>();\
 
 #define PROXYCOLOR(colorName, upperCaseColor) \
@@ -171,37 +198,21 @@ qWarning()<< "\""#colorName"\""<<themeDeclarative()->instance(this)->property(#c
 QColor Theme::textColor() const
 {
     RESOLVECOLOR(textColor, TextColor)
- /*   if (m_scope) {
-        switch (m_scope->context()) {
-        case ColorScope::Button:
-            return themeDeclarative()->instance(this)->property("buttonTextColor").value<QColor>();
-        case ColorScope::View:
-            return themeDeclarative()->instance(this)->property("viewTextColor").value<QColor>();
-        case ColorScope::Complementary:
-            return themeDeclarative()->instance(this)->property("complementaryTextColor").value<QColor>();
-        case ColorScope::Window:
-        default:
-            return themeDeclarative()->instance(this)->property("textColor").value<QColor>();
-        }
-    }
-
-    return themeDeclarative()->instance(this)->property("textColor").value<QColor>();
-    return m_textColor;*/
 }
 
 QColor Theme::disabledTextColor() const
 {
-    RESOLVECOLOR(disabledTextColor, DisabledTextColor)
+    PROXYCOLOR(disabledTextColor, DisabledTextColor)
 }
 
 QColor Theme::highlightColor() const
 {
-    RESOLVECOLOR(highlightColor, HighlightColor)
+    PROXYCOLOR(highlightColor, HighlightColor)
 }
 
 QColor Theme::highlightedTextColor() const
 {
-    RESOLVECOLOR(highlightedTextColor, HighlightedTextColor)
+    PROXYCOLOR(highlightedTextColor, HighlightedTextColor)
 }
 
 QColor Theme::backgroundColor() const
@@ -211,12 +222,12 @@ QColor Theme::backgroundColor() const
 
 QColor Theme::linkColor() const
 {
-    RESOLVECOLOR(linkColor, LinkColor)
+    PROXYCOLOR(linkColor, LinkColor)
 }
 
 QColor Theme::visitedLinkColor() const
 {
-    RESOLVECOLOR(visitedLinkColor, VisitedLinkColor)
+    PROXYCOLOR(visitedLinkColor, VisitedLinkColor)
 }
 
 QColor Theme::buttonTextColor() const

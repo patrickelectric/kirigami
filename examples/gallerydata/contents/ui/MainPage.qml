@@ -121,6 +121,10 @@ Kirigami.ScrollablePage {
                 component: "Colors"
             }
             ListElement {
+                text: "Color Scope"
+                component: "ColorScope"
+            }
+            ListElement {
                 text: "Metrics"
                 component: "Metrics"
             }

@@ -19,7 +19,7 @@
 
 import QtQuick 2.1
 import QtQuick.Layouts 1.2
-import org.kde.kirigami 2.0
+import org.kde.kirigami 2.1 as Kirigami
 import "private"
 import QtQuick.Templates 2.0 as T2
 
@@ -37,25 +37,25 @@ T2.Page {
      * leftPadding: int
      * default contents padding at left
      */
-    leftPadding: Units.gridUnit
+    leftPadding: Kirigami.Units.gridUnit
 
     /**
      * topPadding: int
      * default contents padding at top
      */
-    topPadding: Units.gridUnit
+    topPadding: Kirigami.Units.gridUnit
 
     /**
      * rightPadding: int
      * default contents padding at right
      */
-    rightPadding: Units.gridUnit
+    rightPadding: Kirigami.Units.gridUnit
 
     /**
      * bottomPadding: int
      * default contents padding at bottom
      */
-    bottomPadding: Units.gridUnit
+    bottomPadding: Kirigami.Units.gridUnit
 
     /**
      * flickable: Flickable
@@ -216,6 +216,15 @@ T2.Page {
     }
 
     /**
+     * colorContext: Kirigami.ColorScope.Context
+     * the color set this page and its children will use
+     * @see ColorScope
+     *
+     * @since 2.2
+     */
+    property alias colorContext: colorScope.context
+
+    /**
      * emitted When the application requests a Back action
      * For instance a global "back" shortcut or the Android
      * Back button has been pressed.
@@ -228,7 +237,8 @@ T2.Page {
     anchors.topMargin: (applicationWindow() && !applicationWindow().wideScreen && Settings.isMobile && applicationWindow().controlsVisible && applicationWindow().header ? applicationWindow().header.preferredHeight : 0)
 
     //NOTE: This exists just because control instances require it
-    contentItem: Item { 
+    contentItem: Kirigami.ColorScope {
+        id: colorScope
         onChildrenChanged: {
             //NOTE: make sure OverlaySheets are directly under the root
             //so they are over all the contents and don't have margins
