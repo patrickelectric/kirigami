@@ -115,7 +115,7 @@ Theme::Theme(QObject *parent)
 {
     m_scope = qobject_cast<ColorScope *>(parent);
 
-    if (!m_scope) {
+    if (0&&!m_scope) {
         m_scope = QQmlEngine::contextForObject(parent)->contextProperty("_kirigami_ColorScope").value<ColorScope *>();
     }
     if (!m_scope) {
@@ -163,6 +163,25 @@ Theme::~Theme()
 {
 }
 
+void Theme::setColorContext(ColorScope::Context context)
+{
+    m_colorContext = context;
+qWarning()<<"CONTEXT"<<this<<context;
+    for (QQuickItem *child : static_cast<QQuickItem *>(parent())->childItems()) {
+        Theme *t = static_cast<Theme *>(qmlAttachedPropertiesObject<Theme>(child));
+        if (t) {
+            t->setColorContext(context);
+        }
+    }
+    emit colorContextChanged();
+}
+
+ColorScope::Context Theme::colorContext() const
+{
+    return m_colorContext;
+}
+
+
 QStringList Theme::keys() const
 {
     QStringList props;
@@ -176,8 +195,8 @@ QStringList Theme::keys() const
 }
 
 #define RESOLVECOLOR(colorName, upperCaseColor) \
-    if (m_scope) {\
-        switch (m_scope->context()) {\
+    if (1) {\
+        switch (m_colorContext) {\
         case ColorScope::Button:\
             return themeDeclarative()->instance(this)->property("button"#upperCaseColor).value<QColor>();\
         case ColorScope::View:\

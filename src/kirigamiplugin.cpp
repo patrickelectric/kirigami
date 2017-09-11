@@ -123,7 +123,7 @@ void KirigamiPlugin::registerTypes(const char *uri)
     qmlRegisterType(componentUrl(QStringLiteral("AbstractApplicationItem.qml")), uri, 2, 1, "AbstractApplicationItem");
     qmlRegisterType(componentUrl(QStringLiteral("ApplicationItem.qml")), uri, 2, 1, "ApplicationItem");
 
-    qmlRegisterType<ColorScope>(uri, 2, 1, "ColorScope");
+    qmlRegisterType<ColorScope>(uri, 2, 0, "ColorScope");
     qmlRegisterType<Theme>(uri, 2, 0, "Theme");
 
     qmlProtectModule(uri, 2);

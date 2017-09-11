@@ -107,10 +107,13 @@ class Theme : public QObject
     //FIXME: this is due https://bugreports.qt.io/browse/QTBUG-63089
     Q_PROPERTY(QStringList keys READ keys CONSTANT)
 
+    Q_PROPERTY(ColorScope::Context colorContext READ colorContext WRITE setColorContext NOTIFY colorContextChanged)
 public:
     explicit Theme(QObject *parent = 0);
     ~Theme();
 
+    void setColorContext(ColorScope::Context);
+    ColorScope::Context colorContext() const;
 
     QColor textColor() const;
     QColor disabledTextColor() const;
@@ -146,9 +149,11 @@ public:
 Q_SIGNALS:
     void themeChanged();
     void defaultFontChanged();
+    void colorContextChanged();
 
 private:
     ColorScope *m_scope;
+    ColorScope::Context m_colorContext = ColorScope::Window;
     QColor m_textColor = QColor(255,0,0,255);
 };
 

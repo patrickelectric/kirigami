@@ -97,5 +97,16 @@ Kirigami.ScrollablePage {
                 }
             }
         }
+        Rectangle {
+            Kirigami.Theme.colorContext: Kirigami.ColorScope.Complementary
+            color: Kirigami.Theme.backgroundColor
+            Layout.minimumHeight: 30
+            Layout.fillWidth: true
+            Rectangle {
+                color: Kirigami.Theme.textColor
+                width: parent.width
+                height: 9
+            }
+        }
     }
 }

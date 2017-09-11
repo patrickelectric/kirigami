@@ -101,6 +101,7 @@ Page {
      */
     property bool keyboardNavigationEnabled: true
 
+    Theme.colorContext: flickable && flickable.hasOwnProperty("model") ? ColorScope.View : ColorScope.Window
     colorScope.context: flickable && flickable.hasOwnProperty("model") ? ColorScope.View : ColorScope.Window
 
     RefreshableScrollView {
