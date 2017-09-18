@@ -23,6 +23,7 @@
 #include <QGuiApplication>
 #include <QPalette>
 #include <QDebug>
+#include <QQuickWindow>
 
 
 
@@ -118,7 +119,7 @@ Theme::Theme(QObject *parent)
     if (0&&!m_scope) {
         m_scope = QQmlEngine::contextForObject(parent)->contextProperty("_kirigami_ColorScope").value<ColorScope *>();
     }
-    if (!m_scope) {
+    if (0&&!m_scope) {
         QQuickItem *candidate = qobject_cast<QQuickItem *>(parent);
         while (candidate) {
             if ((m_scope = qobject_cast<ColorScope *>(candidate))) {
@@ -126,6 +127,13 @@ Theme::Theme(QObject *parent)
             }
             candidate = candidate->parentItem();
         }
+    }
+
+    findParentStyle();
+
+    if (QQuickItem *item = qobject_cast<QQuickItem *>(parent)) {
+        connect(item, &QQuickItem::windowChanged, this, &Theme::findParentStyle);
+        connect(item, &QQuickItem::parentChanged, this, &Theme::findParentStyle);
     }
 
     if (m_scope) {
@@ -161,19 +169,21 @@ Theme::Theme(QObject *parent)
 
 Theme::~Theme()
 {
+    if (m_parentTheme) {
+        m_parentTheme->m_childThemes.remove(this);
+    }
 }
 
 void Theme::setColorContext(ColorScope::Context context)
 {
     m_colorContext = context;
-qWarning()<<"CONTEXT"<<this<<context;
-    for (QQuickItem *child : static_cast<QQuickItem *>(parent())->childItems()) {
-        Theme *t = static_cast<Theme *>(qmlAttachedPropertiesObject<Theme>(child));
-        if (t) {
-            t->setColorContext(context);
-        }
+    qWarning()<<"CONTEXT"<<this<<context;
+    for (Theme *t : m_childThemes) {
+        qWarning()<<"Found a child with context"<<this<<t<<context;
+        t->setColorContext(context);
     }
     emit colorContextChanged();
+    emit themeChanged();
 }
 
 ColorScope::Context Theme::colorContext() const
@@ -316,6 +326,22 @@ QFont Theme::defaultFont() const
 }
 
 
+void Theme::findParentStyle()
+{
+    QQuickItem *candidate = qobject_cast<QQuickItem *>(parent());
+    while (candidate) {
+        candidate = candidate->parentItem();
+        Theme *t = static_cast<Theme *>(qmlAttachedPropertiesObject<Theme>(candidate, false));
+        if (t) {
+            qWarning()<<"OOOH"<<candidate<<t<<t->colorContext();
+            t->m_childThemes.insert(this);
+            m_parentTheme = t;
+            setColorContext(t->colorContext());
+            break;
+        }
+        
+    }
+}
 
 ThemeDeclarative *Theme::themeDeclarative()
 {

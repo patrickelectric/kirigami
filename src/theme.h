@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QQuickItem>
 #include <QColor>
+#include <QPointer>
 
 class Theme;
 
@@ -152,9 +153,13 @@ Q_SIGNALS:
     void colorContextChanged();
 
 private:
+    void findParentStyle();
+
     ColorScope *m_scope;
     ColorScope::Context m_colorContext = ColorScope::Window;
     QColor m_textColor = QColor(255,0,0,255);
+    QSet<Theme *> m_childThemes;
+    QPointer<Theme> m_parentTheme;
 };
 
 QML_DECLARE_TYPEINFO(Theme, QML_HAS_ATTACHED_PROPERTIES)
