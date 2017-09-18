@@ -18,7 +18,7 @@
  */
 
 import QtQuick 2.1
-import org.kde.kirigami 2.0
+import org.kde.kirigami 2.2
 
 Rectangle {
     id: background
@@ -40,7 +40,7 @@ Rectangle {
 
     on_FirstElementChanged: {
         if (_firstElement) {
-            var newObject = Qt.createQmlObject('import QtQuick 2.0; import org.kde.kirigami 2.0; Separator {anchors {left: parent.left; right: parent.right; bottom: parent.top} visible: listItem.separatorVisible}',
+            var newObject = Qt.createQmlObject('import QtQuick 2.0; import org.kde.kirigami 2.2; Separator {anchors {left: parent.left; right: parent.right; bottom: parent.top} visible: listItem.separatorVisible}',
                                    background);
         }
     }

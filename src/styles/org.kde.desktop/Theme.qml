@@ -19,7 +19,7 @@
 
 import QtQuick 2.4
 
-//pragma Singleton
+pragma Singleton
 
 
 QtObject {
