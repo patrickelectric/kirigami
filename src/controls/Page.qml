@@ -216,15 +216,6 @@ T2.Page {
     }
 
     /**
-     * colorContext: Kirigami.ColorScope.Context
-     * the color set this page and its children will use
-     * @see ColorScope
-     *
-     * @since 2.2
-     */
-    property alias colorScope: colorScope
-
-    /**
      * emitted When the application requests a Back action
      * For instance a global "back" shortcut or the Android
      * Back button has been pressed.
@@ -237,8 +228,7 @@ T2.Page {
     anchors.topMargin: (applicationWindow() && !applicationWindow().wideScreen && Settings.isMobile && applicationWindow().controlsVisible && applicationWindow().header ? applicationWindow().header.preferredHeight : 0)
 
     //NOTE: This exists just because control instances require it
-    contentItem: Kirigami.ColorScope {
-        id: colorScope
+    contentItem: Item {
         onChildrenChanged: {
             //NOTE: make sure OverlaySheets are directly under the root
             //so they are over all the contents and don't have margins

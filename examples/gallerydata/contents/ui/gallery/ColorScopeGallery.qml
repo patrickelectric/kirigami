@@ -47,58 +47,57 @@ Kirigami.ScrollablePage {
                 }
             }
         }
-        Kirigami.ColorScope {
-            context: Kirigami.ColorScope.View
-            Layout.minimumHeight: childrenRect.height
-            Layout.fillWidth: true
-            Rectangle {
-                color: Kirigami.Theme.backgroundColor
-                height: childrenRect.height
-                width: parent.width
-                ColumnLayout {
-                    width: parent.width
-                    Kirigami.Label {
-                        text: "View scope"
-                    }
-                    Kirigami.BasicListItem {
-                        width: parent.width
-                        icon: "go-next"
-                        label: "Delegate1"
-                    }
-                    Kirigami.BasicListItem {
-                        width: parent.width
-                        label: "Delegate2"
-                    }
-                }
-            }
-        }
-        Kirigami.ColorScope {
-            context: Kirigami.ColorScope.Complementary
-            Layout.minimumHeight: childrenRect.height
-            Layout.fillWidth: true
-            Rectangle {
-                color: Kirigami.Theme.backgroundColor
-                height: childrenRect.height
-                width: parent.width
-                ColumnLayout {
-                    width: parent.width
-                    Kirigami.Label {
-                        text: "Complementary scope"
-                    }
-                    Kirigami.BasicListItem {
-                        width: parent.width
-                        icon: "go-next"
-                        label: "Delegate1"
-                    }
-                    Kirigami.BasicListItem {
-                        width: parent.width
-                        label: "Delegate2"
-                    }
-                }
-            }
-        }
+
         Rectangle {
-            Kirigami.Theme.colorContext: Kirigami.ColorScope.Complementary
+            Kirigami.Theme.colorContext: Kirigami.Theme.View
+            Layout.minimumHeight: childrenRect.height
+            Layout.fillWidth: true
+            color: Kirigami.Theme.backgroundColor
+            height: childrenRect.height
+            width: parent.width
+            ColumnLayout {
+                width: parent.width
+                Kirigami.Label {
+                    text: "View scope"
+                }
+                Kirigami.BasicListItem {
+                    width: parent.width
+                    icon: "go-next"
+                    label: "Delegate1"
+                }
+                Kirigami.BasicListItem {
+                    width: parent.width
+                    label: "Delegate2"
+                }
+            }
+        }
+
+        Rectangle {
+            Kirigami.Theme.colorContext: Kirigami.Theme.Complementary
+            Layout.minimumHeight: childrenRect.height
+            Layout.fillWidth: true
+            color: Kirigami.Theme.backgroundColor
+            height: childrenRect.height
+            width: parent.width
+            ColumnLayout {
+                width: parent.width
+                Kirigami.Label {
+                    text: "Complementary scope"
+                }
+                Kirigami.BasicListItem {
+                    width: parent.width
+                    icon: "go-next"
+                    label: "Delegate1"
+                }
+                Kirigami.BasicListItem {
+                    width: parent.width
+                    label: "Delegate2"
+                }
+            }
+        }
+
+        Rectangle {
+            Kirigami.Theme.colorContext: Kirigami.Theme.Complementary
             color: Kirigami.Theme.backgroundColor
             Layout.minimumHeight: 30
             Layout.fillWidth: true

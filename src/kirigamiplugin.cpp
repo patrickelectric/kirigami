@@ -70,8 +70,6 @@ void KirigamiPlugin::registerTypes(const char *uri)
 
     Theme::themeDeclarative()->setQmlPath(componentUrl(QStringLiteral("Theme.qml")));
 
-    //TODO: in this plugin it will end up something similar to
-    //PlasmaCore's ColorScope?
     s_selectedStyle = m_stylesFallbackChain.first();
     qmlRegisterSingletonType<Settings>(uri, 2, 0, "Settings",
          [](QQmlEngine*, QJSEngine*) -> QObject* {
@@ -84,6 +82,8 @@ void KirigamiPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<ApplicationHeaderStyle>(uri, 2, 0, "ApplicationHeaderStyle", "Cannot create objects of type ApplicationHeaderStyle");
 
     qmlRegisterSingletonType(componentUrl(QStringLiteral("Theme.qml")), uri, 2, 0, "Theme");
+    //Theme changed from a singleton to an attached property
+    qmlRegisterType<Theme>(uri, 2, 2, "Theme");
     qmlRegisterSingletonType(componentUrl(QStringLiteral("Units.qml")), uri, 2, 0, "Units");
 
     qmlRegisterType(componentUrl(QStringLiteral("Action.qml")), uri, 2, 0, "Action");
@@ -122,9 +122,6 @@ void KirigamiPlugin::registerTypes(const char *uri)
     qmlRegisterType(componentUrl(QStringLiteral("ItemViewHeader.qml")), uri, 2, 1, "ItemViewHeader");
     qmlRegisterType(componentUrl(QStringLiteral("AbstractApplicationItem.qml")), uri, 2, 1, "AbstractApplicationItem");
     qmlRegisterType(componentUrl(QStringLiteral("ApplicationItem.qml")), uri, 2, 1, "ApplicationItem");
-
-    qmlRegisterType<ColorScope>(uri, 2, 0, "ColorScope");
-    qmlRegisterType<Theme>(uri, 2, 2, "Theme");
 
     qmlProtectModule(uri, 2);
 }

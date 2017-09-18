@@ -101,24 +101,21 @@ Page {
      */
     property bool keyboardNavigationEnabled: true
 
-    Theme.colorContext: flickable && flickable.hasOwnProperty("model") ? ColorScope.View : ColorScope.Window
-    colorScope.context: flickable && flickable.hasOwnProperty("model") ? ColorScope.View : ColorScope.Window
+    Theme.colorContext: flickable && flickable.hasOwnProperty("model") ? Theme.View : Theme.Window
 
     RefreshableScrollView {
         id: scrollView
         z: 0
         //child of root as it shouldn't have margins
-        parent: root.colorScope
+        parent: root
         topPadding: (applicationWindow() && applicationWindow().header ? applicationWindow().header.preferredHeight : 0) + (contentItem == flickable ? 0 : root.topPadding)
         leftPadding: root.leftPadding
         rightPadding: root.rightPadding
         bottomPadding: contentItem == flickable ? 0 : root.bottomPadding
         anchors {
             fill: parent
-            topMargin: -root.topPadding + (root.header ? root.header.height : 0)
-            bottomMargin: -root.bottomPadding + (root.footer ? root.footer.height : 0)
-            leftMargin: -root.leftPadding
-            rightMargin: -root.rightPadding
+            topMargin: root.header ? root.header.height : 0
+            bottomMargin: root.footer ? root.footer.height : 0
         }
     }
     

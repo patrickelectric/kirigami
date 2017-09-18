@@ -41,41 +41,6 @@ private:
     QObject *m_declarativeTheme = nullptr;
 };
 
-class ColorScope : public QQuickItem
-{
-    Q_OBJECT
-
-    Q_PROPERTY(ColorScope *_kirigami_ColorScope READ kirigami_ColorScope CONSTANT)
-    Q_PROPERTY(Context context READ context WRITE setContext NOTIFY contextChanged)
-    Q_PROPERTY(QPalette palette READ palette NOTIFY paletteChanged)
-    Q_ENUMS(Context)
-
-public:
-    enum Context {
-        Window=0,
-        Button,
-        View,
-        Complementary
-    };
-
-    explicit ColorScope(QQuickItem *parent = 0);
-    ~ColorScope();
-
-    Context context() const;
-    void setContext(Context context);
-
-    QPalette palette() const;
-
-    ColorScope *kirigami_ColorScope();
-
-Q_SIGNALS:
-    void contextChanged();
-    void paletteChanged();
-
-private:
-    Context m_context = Window;
-};
-
 class Theme : public QObject
 {
     Q_OBJECT
@@ -108,13 +73,24 @@ class Theme : public QObject
     //FIXME: this is due https://bugreports.qt.io/browse/QTBUG-63089
     Q_PROPERTY(QStringList keys READ keys CONSTANT)
 
-    Q_PROPERTY(ColorScope::Context colorContext READ colorContext WRITE setColorContext NOTIFY colorContextChanged)
+    Q_PROPERTY(Theme::Context colorContext READ colorContext WRITE setColorContext NOTIFY colorContextChanged)
+
+    Q_ENUMS(Context)
+
 public:
+    enum Context {
+        Auto = 0,
+        Window,
+        Button,
+        View,
+        Complementary
+    };
+
     explicit Theme(QObject *parent = 0);
     ~Theme();
 
-    void setColorContext(ColorScope::Context);
-    ColorScope::Context colorContext() const;
+    void setColorContext(Theme::Context);
+    Theme::Context colorContext() const;
 
     QColor textColor() const;
     QColor disabledTextColor() const;
@@ -154,10 +130,10 @@ Q_SIGNALS:
 
 private:
     void findParentStyle();
+    void setActualColorContext(Theme::Context);
 
-    ColorScope *m_scope;
-    ColorScope::Context m_colorContext = ColorScope::Window;
-    QColor m_textColor = QColor(255,0,0,255);
+    Theme::Context m_colorContext = Theme::Auto;
+    Theme::Context m_actualColorContext = Theme::Window;
     QSet<Theme *> m_childThemes;
     QPointer<Theme> m_parentTheme;
 };

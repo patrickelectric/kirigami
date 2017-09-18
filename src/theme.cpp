@@ -62,51 +62,8 @@ QObject *ThemeDeclarative::instance(const Theme *theme)
     c.loadUrl(m_qmlPath);
 
     m_declarativeTheme = c.create();
-    qWarning()<<"Declarative Theme"<<m_declarativeTheme;
+
     return m_declarativeTheme;
-}
-
-
-ColorScope::ColorScope(QQuickItem *parent)
-    : QQuickItem(parent)
-{
-}
-
-ColorScope::~ColorScope()
-{}
-
-ColorScope::Context ColorScope::context() const
-{
-    return m_context;
-}
-
-void ColorScope::setContext(ColorScope::Context context)
-{
-    if (m_context == context) {
-        return;
-    }
-
-    m_context = context;
-    emit contextChanged();
-}
-
-QPalette ColorScope::palette() const
-{
-    if (m_context == Complementary) {
-        QPalette pal = qApp->palette();
-        //TODO: build the palette from the Theme declarative thing
-        pal.setBrush(QPalette::Button, Theme::themeDeclarative()->instance(nullptr)->property("complementaryBackgroundColor").value<QColor>());
-        pal.setBrush(QPalette::ButtonText, Theme::themeDeclarative()->instance(nullptr)->property("complementaryTextColor").value<QColor>());
-        return pal;
-    }
-        
-    return static_cast<QGuiApplication *>(QGuiApplication::instance())->palette();
-}
-
-
-ColorScope *ColorScope::kirigami_ColorScope()
-{
-    return this;
 }
 
 
@@ -114,21 +71,6 @@ ColorScope *ColorScope::kirigami_ColorScope()
 Theme::Theme(QObject *parent)
     : QObject(parent)
 {
-    m_scope = qobject_cast<ColorScope *>(parent);
-
-    if (0&&!m_scope) {
-        m_scope = QQmlEngine::contextForObject(parent)->contextProperty("_kirigami_ColorScope").value<ColorScope *>();
-    }
-    if (0&&!m_scope) {
-        QQuickItem *candidate = qobject_cast<QQuickItem *>(parent);
-        while (candidate) {
-            if ((m_scope = qobject_cast<ColorScope *>(candidate))) {
-                break;
-            }
-            candidate = candidate->parentItem();
-        }
-    }
-
     findParentStyle();
 
     if (QQuickItem *item = qobject_cast<QQuickItem *>(parent)) {
@@ -136,9 +78,6 @@ Theme::Theme(QObject *parent)
         connect(item, &QQuickItem::parentChanged, this, &Theme::findParentStyle);
     }
 
-    if (m_scope) {
-        connect(m_scope, &ColorScope::contextChanged, this, &Theme::themeChanged);
-    }
     //TODO: correct?
     connect(qApp, &QGuiApplication::fontDatabaseChanged, this, &Theme::defaultFontChanged);
 
@@ -174,19 +113,26 @@ Theme::~Theme()
     }
 }
 
-void Theme::setColorContext(ColorScope::Context context)
+void Theme::setColorContext(Theme::Context context)
 {
-    m_colorContext = context;
-    qWarning()<<"CONTEXT"<<this<<context;
-    for (Theme *t : m_childThemes) {
-        qWarning()<<"Found a child with context"<<this<<t<<context;
-        t->setColorContext(context);
-    }
+    m_colorContext = m_actualColorContext = context;
+    setActualColorContext(context);
     emit colorContextChanged();
+}
+
+void Theme::setActualColorContext(Theme::Context context)
+{
+    m_actualColorContext = context;
+
+    for (Theme *t : m_childThemes) {
+        if (t->colorContext() == Auto) {
+            t->setActualColorContext(context);
+        }
+    }
     emit themeChanged();
 }
 
-ColorScope::Context Theme::colorContext() const
+Theme::Context Theme::colorContext() const
 {
     return m_colorContext;
 }
@@ -205,20 +151,18 @@ QStringList Theme::keys() const
 }
 
 #define RESOLVECOLOR(colorName, upperCaseColor) \
-    if (1) {\
-        switch (m_colorContext) {\
-        case ColorScope::Button:\
-            return themeDeclarative()->instance(this)->property("button"#upperCaseColor).value<QColor>();\
-        case ColorScope::View:\
-            return themeDeclarative()->instance(this)->property("view"#upperCaseColor).value<QColor>();\
-        case ColorScope::Complementary:\
-            return themeDeclarative()->instance(this)->property("complementary"#upperCaseColor).value<QColor>();\
-        case ColorScope::Window:\
-        default:\
-            return themeDeclarative()->instance(this)->property(#colorName).value<QColor>();\
-        }\
+    switch (m_actualColorContext) {\
+    case Theme::Button:\
+        return themeDeclarative()->instance(this)->property("button"#upperCaseColor).value<QColor>();\
+    case Theme::View:\
+        return themeDeclarative()->instance(this)->property("view"#upperCaseColor).value<QColor>();\
+    case Theme::Complementary:\
+        return themeDeclarative()->instance(this)->property("complementary"#upperCaseColor).value<QColor>();\
+    case Theme::Window:\
+    default:\
+        return themeDeclarative()->instance(this)->property(#colorName).value<QColor>();\
     }\
-    return themeDeclarative()->instance(this)->property(#colorName).value<QColor>();\
+
 
 #define PROXYCOLOR(colorName, upperCaseColor) \
     return themeDeclarative()->instance(this)->property(#colorName).value<QColor>();
@@ -328,15 +272,19 @@ QFont Theme::defaultFont() const
 
 void Theme::findParentStyle()
 {
+    if (m_parentTheme) {
+        m_parentTheme->m_childThemes.remove(this);
+    }
     QQuickItem *candidate = qobject_cast<QQuickItem *>(parent());
     while (candidate) {
         candidate = candidate->parentItem();
         Theme *t = static_cast<Theme *>(qmlAttachedPropertiesObject<Theme>(candidate, false));
         if (t) {
-            qWarning()<<"OOOH"<<candidate<<t<<t->colorContext();
             t->m_childThemes.insert(this);
             m_parentTheme = t;
-            setColorContext(t->colorContext());
+            if (m_colorContext == Auto) {
+                setActualColorContext(t->colorContext());
+            }
             break;
         }
         
