@@ -149,19 +149,24 @@ QStringList Theme::keys() const
     }
     return props;
 }
-
+//TODO: tint
 #define RESOLVECOLOR(colorName, upperCaseColor) \
+    QColor color;\
     switch (m_actualColorContext) {\
     case Theme::Button:\
-        return themeDeclarative()->instance(this)->property("button"#upperCaseColor).value<QColor>();\
+        color = themeDeclarative()->instance(this)->property("button"#upperCaseColor).value<QColor>();\
+        break;\
     case Theme::View:\
-        return themeDeclarative()->instance(this)->property("view"#upperCaseColor).value<QColor>();\
+        color = themeDeclarative()->instance(this)->property("view"#upperCaseColor).value<QColor>();\
+        break;\
     case Theme::Complementary:\
-        return themeDeclarative()->instance(this)->property("complementary"#upperCaseColor).value<QColor>();\
+        color = themeDeclarative()->instance(this)->property("complementary"#upperCaseColor).value<QColor>();\
+        break;\
     case Theme::Window:\
     default:\
-        return themeDeclarative()->instance(this)->property(#colorName).value<QColor>();\
+        color = themeDeclarative()->instance(this)->property(#colorName).value<QColor>();\
     }\
+    return color;\
 
 
 #define PROXYCOLOR(colorName, upperCaseColor) \
@@ -269,6 +274,14 @@ QFont Theme::defaultFont() const
     return qApp->font();
 }
 
+QColor Theme::tint(const QColor &c1, const QColor &c2, qreal ratio)
+{
+    qreal r = c1.redF() + (c2.redF() - c1.redF()) * ratio;
+    qreal g = c1.greenF() + (c2.greenF() - c1.greenF()) * ratio;
+    qreal b = c1.blueF() + (c2.blueF() - c1.blueF()) * ratio;
+ 
+    return QColor::fromRgbF(r, g, b, 1);
+}
 
 void Theme::findParentStyle()
 {

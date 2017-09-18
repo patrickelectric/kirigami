@@ -131,6 +131,7 @@ Q_SIGNALS:
 private:
     void findParentStyle();
     void setActualColorContext(Theme::Context);
+    static QColor tint(const QColor &c1, const QColor &c2, qreal ratio);
 
     Theme::Context m_colorContext = Theme::Auto;
     Theme::Context m_actualColorContext = Theme::Window;
