@@ -37,7 +37,7 @@ T.OverlayDrawer {
 
 //BEGIN Properties
     background: Rectangle {
-        color: Theme.viewBackgroundColor
+        color: Theme.backgroundColor
 
         Item {
             parent: root.handle

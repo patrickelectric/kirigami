@@ -107,5 +107,10 @@ Kirigami.ScrollablePage {
                 height: 9
             }
         }
+        Controls.ComboBox {
+            currentIndex: 1
+            model: ["Window", "View", "Complementary"]
+            onCurrentTextChanged: applicationWindow().globalDrawer.Kirigami.Theme.colorContext = currentText
+        }
     }
 }

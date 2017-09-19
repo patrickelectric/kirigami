@@ -185,6 +185,11 @@ T2.Drawer {
         }
     }
 
+    Theme.colorContext: Theme.View
+    Theme.onColorContextChanged: {
+        contentItem.Theme.colorContext = Theme.colorContext
+        background.Theme.colorContext = Theme.colorContext
+    }
 //END Properties
 
 
@@ -299,6 +304,8 @@ T2.Drawer {
             root.enter.enabled = true;
         }
         __internal.completed = true;
+        contentItem.Theme.colorContext = Theme.colorContext;
+        background.Theme.colorContext = Theme.colorContext;
     }
 //END signal handlers
 
