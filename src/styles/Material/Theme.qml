@@ -19,8 +19,9 @@
 
 import QtQuick 2.7
 import QtQuick.Controls.Material 2.0
+import org.kde.kirigami 2.2 as Kirigami
 
-//pragma Singleton
+pragma Singleton
 
 
 QtObject {
@@ -50,11 +51,27 @@ QtObject {
     property color viewHoverColor: theme.Material.listHighlightColor
     property color viewFocusColor: theme.Material.listHighlightColor
 
+    property color complementaryTextColor: fontMetrics.Material.foreground
+    property color complementaryBackgroundColor: fontMetrics.Material.background
+    property color complementaryHoverColor: fontMetrics.Material.listHighlightColor
+    property color complementaryFocusColor: fontMetrics.Material.listHighlightColor
+
     property font defaultFont: fontMetrics.font
 
     property list<QtObject> children: [
         TextMetrics {
             id: fontMetrics
+            //this is to get a source of dark colors
+            Material.theme: Material.Dark
         }
     ]
+    //for internal use
+    function __propagateColorContext(object, context) {
+        //TODO: actually check if it's a dark or light color
+        if (context == Kirigami.Theme.Complementary) {
+            object.Material.theme = Material.Dark;
+        } else {
+            object.Material.theme = Material.Light;
+        }
+    }
 }

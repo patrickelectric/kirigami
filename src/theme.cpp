@@ -117,6 +117,10 @@ void Theme::setColorContext(Theme::Context context)
 {
     m_colorContext = m_actualColorContext = context;
     setActualColorContext(context);
+
+    if (themeDeclarative()->instance(this)) {
+        QMetaObject::invokeMethod(themeDeclarative()->instance(this), "__propagateColorContext", Q_ARG(QVariant, QVariant::fromValue(parent())), Q_ARG(QVariant, context));
+    }
     emit colorContextChanged();
 }
 

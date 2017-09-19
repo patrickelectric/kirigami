@@ -64,4 +64,6 @@ QtObject {
             colorGroup: SystemPalette.Disabled
         }
     ]
+
+    function __propagateColorContext(object, context) {}
 }

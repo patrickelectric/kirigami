@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-//pragma Singleton
+pragma Singleton
 
 import QtQuick 2.4
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.kirigami 2.2 as Kirigami
 
 QtObject {
     property color textColor: theme.textColor
@@ -42,5 +43,28 @@ QtObject {
     property color viewHoverColor: theme.viewHoverColor
     property color viewFocusColor: theme.viewFocusColor
 
+    property color complementaryTextColor: theme.complementaryTextColor
+    property color complementaryBackgroundColor: theme.complementaryBackgroundColor
+    property color complementaryHoverColor: theme.complementaryHoverColor
+    property color complementaryFocusColor: theme.complementaryFocusColor
+
     property variant defaultFont: theme.defaultFont
+
+    function __propagateColorContext(object, context) {
+        object.PlasmaCore.ColorScope.inherit = false;
+        switch(context) {
+        case Kirigami.Theme.Window:
+            object.PlasmaCore.ColorScope.colorGroup = PlasmaCore.Theme.NormalColorGroup;
+            break;
+        case Kirigami.Theme.Button:
+            object.PlasmaCore.ColorScope.colorGroup = PlasmaCore.Theme.ButtonColorGroup;
+            break;
+        case Kirigami.Theme.View:
+            object.PlasmaCore.ColorScope.colorGroup = PlasmaCore.Theme.ViewColorGroup;
+            break;
+        case Kirigami.Theme.Complementary:
+            object.PlasmaCore.ColorScope.colorGroup = PlasmaCore.Theme.ComplementaryColorGroup;
+            break;
+        }
+    }
 }
