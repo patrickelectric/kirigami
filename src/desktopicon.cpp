@@ -19,6 +19,7 @@
  */
 
 #include "desktopicon.h"
+#include "theme.h"
 
 #include <QSGSimpleTextureNode>
 #include <qquickwindow.h>
@@ -33,6 +34,7 @@
 #include <QQuickImageProvider>
 #include <QGuiApplication>
 #include <QPointer>
+#include <QPainter>
 
 class ManagedTextureNode : public QSGSimpleTextureNode
 {
@@ -135,6 +137,7 @@ DesktopIcon::DesktopIcon(QQuickItem *parent)
       m_selected(false)
 {
     setFlag(ItemHasContents, true);
+    //FIXME: not necessary anymore
     connect(qApp, &QGuiApplication::paletteChanged, this, [this]() {
         m_changed = true;
         update();
@@ -153,6 +156,17 @@ void DesktopIcon::setSource(const QVariant &icon)
     }
     m_source = icon;
     m_changed = true;
+
+    if (!m_theme) {
+        m_theme = static_cast<Theme *>(qmlAttachedPropertiesObject<Theme>(this, true));
+        Q_ASSERT(m_theme);
+
+        connect(m_theme, &Theme::themeChanged, this, [this]() {
+            m_changed = true;
+            update();
+        });
+    }
+
     update();
     emit sourceChanged();
 }
@@ -269,8 +283,11 @@ QSGNode* DesktopIcon::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNode
                 img = findIcon(size);
                 break;
             case QVariant::Brush:
+                //todo: fill here too?
             case QVariant::Color:
-                //perhaps fill image instead?
+                img = QImage(size, QImage::Format_Alpha8);
+                img.fill(m_source.value<QColor>());
+                break;
             default:
                 break;
             }
@@ -406,6 +423,12 @@ QImage DesktopIcon::findIcon(const QSize &size)
         }
         if (!icon.availableSizes().isEmpty()){
             img = icon.pixmap(size, iconMode(), QIcon::On).toImage();
+            if (iconSource.endsWith("-symbolic")) {
+                QPainter p(&img);
+                p.setCompositionMode(QPainter::CompositionMode_SourceIn);
+                p.fillRect(img.rect(), m_theme->textColor());
+                p.end();
+            }
         }
     }
     return img;

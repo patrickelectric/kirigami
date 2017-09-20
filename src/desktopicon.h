@@ -27,6 +27,8 @@
 
 class QNetworkAccessManager;
 class QNetworkReply;
+class Theme;
+
 class DesktopIcon : public QQuickItem
 {
     Q_OBJECT
@@ -79,7 +81,9 @@ protected:
     void handleFinished(QNetworkAccessManager* qnam, QNetworkReply* reply);
     void handleReadyRead(QNetworkReply* reply);
     QIcon::Mode iconMode() const;
+
 private:
+    Theme *m_theme = nullptr;
     QVariant m_source;
     bool m_smooth;
     bool m_changed;

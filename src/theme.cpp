@@ -153,7 +153,7 @@ QStringList Theme::keys() const
     }
     return props;
 }
-//TODO: tint
+//TODO: tint for which we need to chain to m_parentTheme's color
 #define RESOLVECOLOR(colorName, upperCaseColor) \
     QColor color;\
     switch (m_actualColorContext) {\
