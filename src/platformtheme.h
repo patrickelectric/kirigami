@@ -67,7 +67,7 @@ public:
     //kcolorscheme also has selection: this would replace highlightColor/highlightedTextColor which would become just
     //wouldn't bother about tooltip for now, can always be added
     enum Context {
-        Auto = 0,
+        Inherit = 0,
         Window,
         Button,
         View,
