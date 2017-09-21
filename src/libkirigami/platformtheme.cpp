@@ -25,7 +25,8 @@
 #include <QDebug>
 #include <QPointer>
 #include <QQuickWindow>
-
+#include <QPluginLoader>
+#include <QDir>
 
 class PlatformThemePrivate {
 public:
@@ -307,6 +308,22 @@ QIcon PlatformTheme::iconFromTheme(const QString &name)
 
 PlatformTheme *PlatformTheme::qmlAttachedProperties(QObject *object)
 {
+    for (const QString &path : QCoreApplication::libraryPaths()) {
+        QDir dir(path + "/kf5/kirigami");
+        for (const QString &fileName : dir.entryList(QDir::Files)) {
+            //TODO: env variable?
+            if (fileName.startsWith("kirigamiplasmaintegration")) {
+                QPluginLoader loader(dir.absoluteFilePath(fileName));
+                QObject *plugin = loader.instance();
+
+                PlatformTheme *theme = qobject_cast<PlatformTheme *>(plugin);
+                if (theme) {
+                    return theme;
+                }
+            }
+        }
+    }
+
     return new BasicTheme(object);
 }
 
