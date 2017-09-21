@@ -4,13 +4,13 @@ if (NOT STATIC_LIBRARY)
     ecm_create_qm_loader(kirigami_QM_LOADER libkirigami2plugin_qt)
 endif()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libkirigami ${CMAKE_CURRENT_BINARY_DIR}/libkirigami)
+
 set(kirigami_SRCS
     kirigamiplugin.cpp
     enums.cpp
     desktopicon.cpp
     settings.cpp
-    platformtheme.cpp
-    basictheme.cpp
     ${kirigami_QM_LOADER}
     )
 
@@ -23,8 +23,9 @@ target_link_libraries(kirigamiplugin Qt5::Core  Qt5::Qml Qt5::Quick)
 
 ELSE(STATIC_LIBRARY)
 
+add_subdirectory(libkirigami)
 add_library(kirigamiplugin SHARED ${kirigami_SRCS})
-target_link_libraries(kirigamiplugin Qt5::Core  Qt5::Qml Qt5::Quick)
+target_link_libraries(kirigamiplugin KF5::Kirigami Qt5::Core  Qt5::Qml Qt5::Quick)
 
 install(TARGETS kirigamiplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kirigami.2)
 

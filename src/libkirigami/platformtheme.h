@@ -25,9 +25,11 @@
 #include <QColor>
 #include <QPalette>
 
+#include <kirigami_export.h>
+
 class PlatformThemePrivate;
 
-class PlatformTheme : public QObject
+class KIRIGAMI_EXPORT PlatformTheme : public QObject
 {
     Q_OBJECT
 
@@ -103,6 +105,12 @@ public:
 
     //QML attached property
     static PlatformTheme *qmlAttachedProperties(QObject *object);
+
+    /**
+     * @internal
+     */
+    static void setFallbackThemeQmlPath(const QUrl &path);
+    static QUrl fallbackThemeQmlPath();
 
 Q_SIGNALS:
     void colorsChanged();

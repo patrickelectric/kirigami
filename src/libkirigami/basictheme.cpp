@@ -55,6 +55,11 @@ void BasicThemeDeclarative::setQmlPath(const QUrl &path)
     m_qmlPath = path;
 }
 
+QUrl BasicThemeDeclarative::qmlPath() const
+{
+    return m_qmlPath;
+}
+
 QObject *BasicThemeDeclarative::instance(const BasicTheme *theme)
 {
     if (m_declarativeBasicTheme) {

@@ -310,4 +310,15 @@ PlatformTheme *PlatformTheme::qmlAttachedProperties(QObject *object)
     return new BasicTheme(object);
 }
 
+void PlatformTheme::setFallbackThemeQmlPath(const QUrl &path)
+{
+    BasicTheme::basicThemeDeclarative()->setQmlPath(path);
+}
+
+QUrl PlatformTheme::fallbackThemeQmlPath()
+{
+    return BasicTheme::basicThemeDeclarative()->qmlPath();
+}
+
+
 #include "moc_platformtheme.cpp"
