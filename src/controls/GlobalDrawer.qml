@@ -209,7 +209,8 @@ OverlayDrawer {
 
     contentItem: ScrollView {
         id: scrollView
-        Theme.colorContext: Theme.Auto
+        //ensure the attached property exists
+        Theme.inherit: true
         anchors.fill: parent
         implicitWidth: Math.min (Units.gridUnit * 20, root.parent.width * 0.8)
         horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff

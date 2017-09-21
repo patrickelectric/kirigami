@@ -101,7 +101,7 @@ Page {
      */
     property bool keyboardNavigationEnabled: true
 
-    Theme.colorContext: flickable && flickable.hasOwnProperty("model") ? Theme.View : Theme.Window
+    Theme.colorSet: flickable && flickable.hasOwnProperty("model") ? Theme.View : Theme.Window
 
     RefreshableScrollView {
         id: scrollView

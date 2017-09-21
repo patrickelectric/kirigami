@@ -96,7 +96,8 @@ OverlayDrawer {
     handleVisible: applicationWindow == undefined ? false : applicationWindow().controlsVisible
 
     contentItem: ScrollView {
-        Theme.colorContext: Theme.View
+        //this just to create the attached property
+        Theme.inherit: true
         implicitWidth: Units.gridUnit * 20
         ListView {
             id: menu

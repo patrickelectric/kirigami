@@ -23,7 +23,8 @@
 #include "enums.h"
 #include "desktopicon.h"
 #include "settings.h"
-#include "theme.h"
+#include "platformtheme.h"
+#include "basictheme.h"
 
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -68,7 +69,7 @@ void KirigamiPlugin::registerTypes(const char *uri)
     }
     //At this point the fallback chain will be selected->org.kde.desktop->Fallback
 
-    Theme::themeDeclarative()->setQmlPath(componentUrl(QStringLiteral("Theme.qml")));
+    BasicTheme::basicThemeDeclarative()->setQmlPath(componentUrl(QStringLiteral("Theme.qml")));
 
     s_selectedStyle = m_stylesFallbackChain.first();
     qmlRegisterSingletonType<Settings>(uri, 2, 0, "Settings",
@@ -83,7 +84,7 @@ void KirigamiPlugin::registerTypes(const char *uri)
 
     qmlRegisterSingletonType(componentUrl(QStringLiteral("Theme.qml")), uri, 2, 0, "Theme");
     //Theme changed from a singleton to an attached property
-    qmlRegisterType<Theme>(uri, 2, 2, "Theme");
+    qmlRegisterType<PlatformTheme>(uri, 2, 2, "Theme");
     qmlRegisterSingletonType(componentUrl(QStringLiteral("Units.qml")), uri, 2, 0, "Units");
 
     qmlRegisterType(componentUrl(QStringLiteral("Action.qml")), uri, 2, 0, "Action");

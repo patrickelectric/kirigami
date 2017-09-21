@@ -49,7 +49,8 @@ Kirigami.ScrollablePage {
         }
 
         Rectangle {
-            Kirigami.Theme.colorContext: Kirigami.Theme.View
+            Kirigami.Theme.inherit: false
+            Kirigami.Theme.colorSet: Kirigami.Theme.View
             Layout.minimumHeight: childrenRect.height
             Layout.fillWidth: true
             color: Kirigami.Theme.backgroundColor
@@ -73,7 +74,8 @@ Kirigami.ScrollablePage {
         }
 
         Rectangle {
-            Kirigami.Theme.colorContext: Kirigami.Theme.Complementary
+            Kirigami.Theme.inherit: false
+            Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
             Layout.minimumHeight: childrenRect.height
             Layout.fillWidth: true
             color: Kirigami.Theme.backgroundColor
@@ -97,7 +99,8 @@ Kirigami.ScrollablePage {
         }
 
         Rectangle {
-            Kirigami.Theme.colorContext: Kirigami.Theme.Complementary
+            Kirigami.Theme.inherit: false
+            Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
             color: Kirigami.Theme.backgroundColor
             Layout.minimumHeight: 30
             Layout.fillWidth: true
@@ -110,7 +113,7 @@ Kirigami.ScrollablePage {
         Controls.ComboBox {
             currentIndex: 1
             model: ["Window", "View", "Complementary"]
-            onCurrentTextChanged: applicationWindow().globalDrawer.Kirigami.Theme.colorContext = currentText
+            onCurrentTextChanged: applicationWindow().globalDrawer.Kirigami.Theme.colorSet = currentText
         }
     }
 }

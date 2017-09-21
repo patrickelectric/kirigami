@@ -27,7 +27,7 @@
 
 class QNetworkAccessManager;
 class QNetworkReply;
-class Theme;
+class PlatformTheme;
 
 class DesktopIcon : public QQuickItem
 {
@@ -83,7 +83,7 @@ protected:
     QIcon::Mode iconMode() const;
 
 private:
-    Theme *m_theme = nullptr;
+    PlatformTheme *m_theme = nullptr;
     QVariant m_source;
     bool m_smooth;
     bool m_changed;

@@ -43,6 +43,7 @@ class PlatformTheme : public QObject
     Q_PROPERTY(QFont defaultFont READ defaultFont NOTIFY defaultFontChanged)
     Q_PROPERTY(QPalette palette READ palette NOTIFY paletteChanged)
 
+    Q_PROPERTY(bool inherit READ inherit WRITE setInherit NOTIFY inheritChanged)
     Q_PROPERTY(PlatformTheme::ColorSet colorSet READ colorSet WRITE setColorSet NOTIFY colorSetChanged)
 
     Q_ENUMS(ColorSet)
@@ -51,8 +52,7 @@ public:
     //kcolorscheme also has selection: this would replace highlightColor/highlightedTextColor which would become just
     //wouldn't bother about tooltip for now, can always be added
     enum ColorSet {
-        Inherit = 0,
-        Window,
+        Window = 0,
         Button,
         View,
         Complementary
@@ -63,6 +63,10 @@ public:
 
     void setColorSet(PlatformTheme::ColorSet);
     PlatformTheme::ColorSet colorSet() const;
+
+    bool inherit() const;
+    void setInherit(bool inherit);
+
 
     QColor textColor() const;
     QColor disabledTextColor() const;
@@ -105,6 +109,7 @@ Q_SIGNALS:
     void defaultFontChanged();
     void colorSetChanged();
     void paletteChanged();
+    void inheritChanged();
 
 private:
     PlatformThemePrivate *d;

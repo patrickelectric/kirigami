@@ -98,6 +98,7 @@ T2.ItemDelegate {
 
     default property alias _default: listItem.contentItem
 
+    Theme.colorSet: Theme.View
     leftPadding: Units.smallSpacing * 2
     topPadding: Units.smallSpacing * 2
     rightPadding: Units.smallSpacing * 2

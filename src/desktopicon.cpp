@@ -19,7 +19,7 @@
  */
 
 #include "desktopicon.h"
-#include "theme.h"
+#include "platformtheme.h"
 
 #include <QSGSimpleTextureNode>
 #include <qquickwindow.h>
@@ -158,10 +158,10 @@ void DesktopIcon::setSource(const QVariant &icon)
     m_changed = true;
 
     if (!m_theme) {
-        m_theme = static_cast<Theme *>(qmlAttachedPropertiesObject<Theme>(this, true));
+        m_theme = static_cast<PlatformTheme *>(qmlAttachedPropertiesObject<PlatformTheme>(this, true));
         Q_ASSERT(m_theme);
 
-        connect(m_theme, &Theme::themeChanged, this, [this]() {
+        connect(m_theme, &PlatformTheme::colorsChanged, this, [this]() {
             m_changed = true;
             update();
         });

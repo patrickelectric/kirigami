@@ -9,8 +9,8 @@ set(kirigami_SRCS
     enums.cpp
     desktopicon.cpp
     settings.cpp
-    theme.cpp
     platformtheme.cpp
+    basictheme.cpp
     ${kirigami_QM_LOADER}
     )
 

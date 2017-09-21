@@ -18,6 +18,7 @@
 */
 
 #include "platformtheme.h"
+#include "basictheme.h"
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QGuiApplication>
@@ -32,13 +33,11 @@ public:
     ~PlatformThemePrivate();
 
     void findParentStyle();
-    void setActualColorSet(PlatformTheme::ColorSet);
     static QColor tint(const QColor &c1, const QColor &c2, qreal ratio);
 
 
     PlatformTheme *q;
-    PlatformTheme::ColorSet m_colorSet = PlatformTheme::Inherit;
-    PlatformTheme::ColorSet m_actualColorSet = PlatformTheme::Window;
+    PlatformTheme::ColorSet m_colorSet = PlatformTheme::Window;
     QSet<PlatformTheme *> m_childThemes;
     QPointer<PlatformTheme> m_parentTheme;
 
@@ -51,6 +50,7 @@ public:
     QColor visitedLinkColor;
     QFont font;
     QPalette palette;
+    bool m_inherit = true;
 };
 
 PlatformThemePrivate::PlatformThemePrivate(PlatformTheme *q)
@@ -72,25 +72,13 @@ void PlatformThemePrivate::findParentStyle()
         if (t) {
             t->d->m_childThemes.insert(q);
             m_parentTheme = t;
-            if (m_colorSet == PlatformTheme::Inherit) {
-                setActualColorSet(t->colorSet());
+            if (m_inherit) {
+                q->setColorSet(t->colorSet());
             }
             break;
         }
         
     }
-}
-
-void PlatformThemePrivate::setActualColorSet(PlatformTheme::ColorSet colorSet)
-{
-    m_actualColorSet = colorSet;
-
-    for (PlatformTheme *t : m_childThemes) {
-        if (t->colorSet() == PlatformTheme::Inherit) {
-            t->d->setActualColorSet(colorSet);
-        }
-    }
-    emit q->colorsChanged();
 }
 
 QColor PlatformThemePrivate::tint(const QColor &c1, const QColor &c2, qreal ratio)
@@ -133,15 +121,43 @@ PlatformTheme::~PlatformTheme()
 
 void PlatformTheme::setColorSet(PlatformTheme::ColorSet colorSet)
 {
-    d->m_colorSet = d->m_actualColorSet = colorSet;
-    d->setActualColorSet(colorSet);
+    if (d->m_colorSet == colorSet) {
+        return;
+    }
+
+    d->m_colorSet = colorSet;
+
+    for (PlatformTheme *t : d->m_childThemes) {
+        if (t->inherit()) {
+            t->setColorSet(colorSet);
+        }
+    }
 
     emit colorSetChanged();
+    emit colorsChanged();
 }
 
 PlatformTheme::ColorSet PlatformTheme::colorSet() const
 {
     return d->m_colorSet;
+}
+
+bool PlatformTheme::inherit() const
+{
+    return d->m_inherit;
+}
+
+void PlatformTheme::setInherit(bool inherit)
+{
+    if (d->m_inherit == inherit) {
+        return;
+    }
+
+    d->m_inherit = inherit;
+    if (inherit && d->m_parentTheme) {
+        setColorSet(d->m_parentTheme->colorSet());
+    }
+    emit inheritChanged();
 }
 
 
@@ -291,7 +307,7 @@ QIcon PlatformTheme::iconFromTheme(const QString &name)
 
 PlatformTheme *PlatformTheme::qmlAttachedProperties(QObject *object)
 {
-    return new PlatformTheme(object);
+    return new BasicTheme(object);
 }
 
 #include "moc_platformtheme.cpp"

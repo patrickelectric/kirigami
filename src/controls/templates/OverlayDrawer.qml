@@ -185,10 +185,10 @@ T2.Drawer {
         }
     }
 
-    Theme.colorContext: Theme.View
-    Theme.onColorContextChanged: {
-        contentItem.Theme.colorContext = Theme.colorContext
-        background.Theme.colorContext = Theme.colorContext
+    Theme.colorSet: Theme.View
+    Theme.onColorSetChanged: {
+        contentItem.Theme.colorSet = Theme.colorSet
+        background.Theme.colorSet = Theme.colorSet
     }
 //END Properties
 
@@ -304,8 +304,8 @@ T2.Drawer {
             root.enter.enabled = true;
         }
         __internal.completed = true;
-        contentItem.Theme.colorContext = Theme.colorContext;
-        background.Theme.colorContext = Theme.colorContext;
+        contentItem.Theme.colorSet = Theme.colorSet;
+        background.Theme.colorSet = Theme.colorSet;
     }
 //END signal handlers
 
