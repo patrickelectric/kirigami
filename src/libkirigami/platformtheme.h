@@ -126,4 +126,9 @@ private:
 
 QML_DECLARE_TYPEINFO(PlatformTheme, QML_HAS_ATTACHED_PROPERTIES)
 
+QT_BEGIN_NAMESPACE
+#define PlatformTheme_iid "org.kde.kirigami.PlatformTheme"
+Q_DECLARE_INTERFACE(PlatformTheme, PlatformTheme_iid)
+QT_END_NAMESPACE
+
 #endif // PLATFORMTHEME_H
