@@ -17,56 +17,40 @@
 *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef PlatformTheme_H
-#define PlatformTheme_H
+#ifndef PLATFORMTHEME_H
+#define PLATFORMTHEME_H
 
 #include <QObject>
 #include <QQuickItem>
 #include <QColor>
-#include <QPointer>
+#include <QPalette>
 
-class PlatformTheme;
+class PlatformThemePrivate;
 
 class PlatformTheme : public QObject
 {
     Q_OBJECT
 
     // colors
-    Q_PROPERTY(QColor textColor READ textColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor disabledTextColor READ disabledTextColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor highlightColor READ highlightColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor highlightedTextColor READ highlightedTextColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor linkColor READ linkColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor visitedLinkColor READ visitedLinkColor NOTIFY themeChanged)
+    Q_PROPERTY(QColor textColor READ textColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor disabledTextColor READ disabledTextColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor highlightColor READ highlightColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor highlightedTextColor READ highlightedTextColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor linkColor READ linkColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor visitedLinkColor READ visitedLinkColor NOTIFY colorsChanged)
 
     Q_PROPERTY(QFont defaultFont READ defaultFont NOTIFY defaultFontChanged)
+    Q_PROPERTY(QPalette palette READ palette NOTIFY paletteChanged)
 
+    Q_PROPERTY(PlatformTheme::ColorSet colorSet READ colorSet WRITE setColorSet NOTIFY colorSetChanged)
 
-    Q_PROPERTY(PlatformTheme::Context colorContext READ colorContext WRITE setColorContext NOTIFY colorContextChanged)
-
-    Q_ENUMS(Context)
-
-    //TODO:
-    Q_PROPERTY(QColor buttonTextColor READ buttonTextColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor buttonBackgroundColor READ buttonBackgroundColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor buttonHoverColor READ buttonHoverColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor buttonFocusColor READ buttonFocusColor NOTIFY themeChanged)
-
-    Q_PROPERTY(QColor viewTextColor READ viewTextColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor viewBackgroundColor READ viewBackgroundColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor viewHoverColor READ viewHoverColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor viewFocusColor READ viewFocusColor NOTIFY themeChanged)
-
-    Q_PROPERTY(QColor complementaryTextColor READ complementaryTextColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor complementaryBackgroundColor READ complementaryBackgroundColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor complementaryHoverColor READ complementaryHoverColor NOTIFY themeChanged)
-    Q_PROPERTY(QColor complementaryFocusColor READ complementaryFocusColor NOTIFY themeChanged)
+    Q_ENUMS(ColorSet)
 
 public:
     //kcolorscheme also has selection: this would replace highlightColor/highlightedTextColor which would become just
     //wouldn't bother about tooltip for now, can always be added
-    enum Context {
+    enum ColorSet {
         Inherit = 0,
         Window,
         Button,
@@ -77,15 +61,14 @@ public:
     explicit PlatformTheme(QObject *parent = 0);
     ~PlatformTheme();
 
-    void setColorContext(PlatformTheme::Context);
-    PlatformTheme::Context colorContext() const;
+    void setColorSet(PlatformTheme::ColorSet);
+    PlatformTheme::ColorSet colorSet() const;
 
     QColor textColor() const;
     QColor disabledTextColor() const;
     QColor backgroundColor() const;
     QColor highlightColor() const;
     QColor highlightedTextColor() const;
-    QColor backgroundColor() const;
     //TODO: add positive/neutral/negative text
     // hoverColor/focusColor would go there if the explicit properties are removed
     //any other stuff missing from kcolorscheme?
@@ -94,49 +77,40 @@ public:
     QColor linkColor() const;
     QColor visitedLinkColor() const;
 
+    //Setters, not accessible from QML but from implementations
+    void setTextColor(const QColor &color);
+    void setDisabledTextColor(const QColor &color);
+    void setBackgroundColor(const QColor &color);
+    void setHighlightColor(const QColor &color);
+    void setHighlightedTextColor(const QColor &color);
+    void setLinkColor(const QColor &color);
+    void setVisitedLinkColor(const QColor &color);
 
-    //TODO: kill all those methods:
-    //can those be all killed and all of this just become dependent from colorContext?
-    //porting can be painful if all of this gets dropeed
-    QColor buttonTextColor() const;
-    QColor buttonBackgroundColor() const;
-    QColor buttonHoverColor() const;
-    QColor buttonFocusColor() const;
-
-    QColor viewTextColor() const;
-    QColor viewBackgroundColor() const;
-    QColor viewHoverColor() const;
-    QColor viewFocusColor() const;
-
-    QColor complementaryTextColor() const;
-    QColor complementaryBackgroundColor() const;
-    QColor complementaryHoverColor() const;
-    QColor complementaryFocusColor() const;
 
     QFont defaultFont() const;
-    //this will be used by desktopicon to fetch icons with KIconLoader
-    QIcon iconFromTheme(const QString &name);
-    //this may be used somehow by the desktop QQC2 to set the styleoption palettes
-    QPalette currentPalette();
+    void setDefaultFont(const QFont &defaultFont);
 
+    QPalette palette() const;
+    void setPalette(const QPalette &palette);
+
+    //this will be used by desktopicon to fetch icons with KIconLoader
+    virtual Q_INVOKABLE QIcon iconFromTheme(const QString &name);
+    //this may be used somehow by the desktop QQC2 to set the styleoption palettes
+
+    //QML attached property
     static PlatformTheme *qmlAttachedProperties(QObject *object);
 
 Q_SIGNALS:
-    void themeChanged();
+    void colorsChanged();
     void defaultFontChanged();
-    void colorContextChanged();
+    void colorSetChanged();
+    void paletteChanged();
 
 private:
-    void findParentStyle();
-    void setActualColorContext(PlatformTheme::Context);
-    static QColor tint(const QColor &c1, const QColor &c2, qreal ratio);
-
-    PlatformTheme::Context m_colorContext = PlatformTheme::Auto;
-    PlatformTheme::Context m_actualColorContext = PlatformTheme::Window;
-    QSet<PlatformTheme *> m_childPlatformThemes;
-    QPointer<PlatformTheme> m_parentPlatformTheme;
+    PlatformThemePrivate *d;
+    friend class PlatformThemePrivate;
 };
 
 QML_DECLARE_TYPEINFO(PlatformTheme, QML_HAS_ATTACHED_PROPERTIES)
 
-#endif // PlatformTheme_H
+#endif // PLATFORMTHEME_H

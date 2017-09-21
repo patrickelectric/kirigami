@@ -10,6 +10,7 @@ set(kirigami_SRCS
     desktopicon.cpp
     settings.cpp
     theme.cpp
+    platformtheme.cpp
     ${kirigami_QM_LOADER}
     )
 
