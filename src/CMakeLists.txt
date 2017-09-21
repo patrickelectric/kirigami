@@ -25,7 +25,7 @@ ELSE(STATIC_LIBRARY)
 
 add_subdirectory(libkirigami)
 add_library(kirigamiplugin SHARED ${kirigami_SRCS})
-target_link_libraries(kirigamiplugin KF5::Kirigami Qt5::Core  Qt5::Qml Qt5::Quick)
+target_link_libraries(kirigamiplugin KF5::Kirigami2 Qt5::Core  Qt5::Qml Qt5::Quick)
 
 install(TARGETS kirigamiplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kirigami.2)
 

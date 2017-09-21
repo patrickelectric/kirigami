@@ -14,7 +14,7 @@ ecm_qt_declare_logging_category(libkirigami_SRCS
 
 add_library(KF5Kirigami2 ${libkirigami_SRCS})
 generate_export_header(KF5Kirigami2 BASE_NAME Kirigami)
-add_library(KF5::Kirigami ALIAS KF5Kirigami2)
+add_library(KF5::Kirigami2 ALIAS KF5Kirigami2)
 
 target_include_directories(KF5Kirigami2
     INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/Kirigami>"
