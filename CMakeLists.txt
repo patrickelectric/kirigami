@@ -71,9 +71,14 @@ install(FILES
   COMPONENT Devel
 )
 
+install(EXPORT KF5Kirigami2Targets
+        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+        FILE KF5Kirigami2Targets.cmake
+        NAMESPACE KF5::)
+
 
 ecm_setup_version(${KF5_VERSION}
-    VARIABLE_PREFIX KIRIGAMI
+    VARIABLE_PREFIX KIRIGAMI2
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kirigami_version.h"
     PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5Kirigami2ConfigVersion.cmake"
     SOVERSION 5)

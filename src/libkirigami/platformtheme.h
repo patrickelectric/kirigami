@@ -25,11 +25,11 @@
 #include <QColor>
 #include <QPalette>
 
-#include <kirigami_export.h>
+#include <kirigami2_export.h>
 
 class PlatformThemePrivate;
 
-class KIRIGAMI_EXPORT PlatformTheme : public QObject
+class KIRIGAMI2_EXPORT PlatformTheme : public QObject
 {
     Q_OBJECT
 

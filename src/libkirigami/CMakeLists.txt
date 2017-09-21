@@ -5,6 +5,8 @@ set(libkirigami_SRCS
     basictheme.cpp
 )
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+
 ecm_qt_declare_logging_category(libkirigami_SRCS
     HEADER loggingcategory.h
     IDENTIFIER KirigamiLog
@@ -13,11 +15,11 @@ ecm_qt_declare_logging_category(libkirigami_SRCS
 )
 
 add_library(KF5Kirigami2 ${libkirigami_SRCS})
-generate_export_header(KF5Kirigami2 BASE_NAME Kirigami)
+generate_export_header(KF5Kirigami2 BASE_NAME Kirigami2)
 add_library(KF5::Kirigami2 ALIAS KF5Kirigami2)
 
 target_include_directories(KF5Kirigami2
-    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/Kirigami>"
+    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/Kirigami2>"
 )
 
 target_link_libraries(KF5Kirigami2
@@ -31,14 +33,14 @@ target_link_libraries(KF5Kirigami2
 set_target_properties(KF5Kirigami2 PROPERTIES
     VERSION     ${KIRIGAMI_VERSION_STRING}
     SOVERSION   ${KIRIGAMI_SOVERSION}
-    EXPORT_NAME "Kirigami"
+    EXPORT_NAME "Kirigami2"
 )
 
-ecm_generate_headers(Kirigami_HEADERS
+ecm_generate_headers(Kirigami2_HEADERS
     HEADER_NAMES
     PlatformTheme
 
-    REQUIRED_HEADERS Kirigami_HEADERS
+    REQUIRED_HEADERS Kirigami2_HEADERS
 )
 
 install(TARGETS KF5Kirigami2
@@ -47,20 +49,20 @@ install(TARGETS KF5Kirigami2
 
 
 install(FILES
-            ${CMAKE_CURRENT_BINARY_DIR}/kirigami_export.h
-            ${Kirigami_HEADERS}
+            ${CMAKE_CURRENT_BINARY_DIR}/kirigami2_export.h
+            ${Kirigami2_HEADERS}
         DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/Kirigami2
         COMPONENT Devel)
 
 if(BUILD_QCH)
     ecm_add_qch(
         KF5Kirigami2_QCH
-        NAME Kirigami
+        NAME Kirigami2
         BASE_NAME KF5Kirigami2
         VERSION ${KF5_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
-            ${Kirigami_HEADERS}
+            ${Kirigami2_HEADERS}
         MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
         LINK_QCHS
             Qt5Core_QCH
@@ -74,7 +76,7 @@ if(BUILD_QCH)
 endif()
 
 include(ECMGeneratePriFile)
-ecm_generate_pri_file(BASE_NAME Kirigami LIB_NAME KF5Kirigami2 DEPS "core" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/Kirigami)
+ecm_generate_pri_file(BASE_NAME Kirigami2 LIB_NAME KF5Kirigami2 DEPS "core" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/Kirigami2)
 install(FILES ${PRI_FILENAME}
         DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
 
