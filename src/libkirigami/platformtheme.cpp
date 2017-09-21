@@ -315,6 +315,7 @@ PlatformTheme *PlatformTheme::qmlAttachedProperties(QObject *object)
             if (fileName.startsWith("kirigamiplasmaintegration")) {
                 QPluginLoader loader(dir.absoluteFilePath(fileName));
                 QObject *plugin = loader.instance();
+                //TODO: load actually a factory as plugin
 
                 PlatformTheme *theme = qobject_cast<PlatformTheme *>(plugin);
                 if (theme) {
