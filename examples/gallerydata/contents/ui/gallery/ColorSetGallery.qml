@@ -26,12 +26,47 @@ Kirigami.ScrollablePage {
     id: page
     title: "Color Sets"
 
+    background: Rectangle {
+        color: Kirigami.Theme.backgroundColor
+    }
     ColumnLayout {
-        Rectangle {
-            color: Kirigami.Theme.backgroundColor
+        Controls.Frame {
+            Kirigami.Theme.inherit: true
             Layout.minimumHeight: childrenRect.height
             Layout.fillWidth: true
-            ColumnLayout {
+            height: childrenRect.height
+            width: parent.width
+            background: Rectangle {
+                color: Kirigami.Theme.backgroundColor
+            }
+            contentItem: ColumnLayout {
+                width: parent.width
+                Kirigami.Label {
+                    text: "Set inherited from parent Item"
+                }
+                Kirigami.BasicListItem {
+                    width: parent.width
+                    icon: "media-record-symbolic"
+                    label: "Delegate1"
+                }
+                Kirigami.BasicListItem {
+                    width: parent.width
+                    label: "Delegate2"
+                }
+            }
+        }
+
+        Controls.Frame {
+            Kirigami.Theme.inherit: false
+            Kirigami.Theme.colorSet: Kirigami.Theme.Window
+            Layout.minimumHeight: childrenRect.height
+            Layout.fillWidth: true
+            height: childrenRect.height
+            width: parent.width
+            background: Rectangle {
+                color: Kirigami.Theme.backgroundColor
+            }
+            contentItem: ColumnLayout {
                 width: parent.width
                 Kirigami.Label {
                     text: "Window Set"
@@ -48,15 +83,17 @@ Kirigami.ScrollablePage {
             }
         }
 
-        Rectangle {
+        Controls.Frame {
             Kirigami.Theme.inherit: false
             Kirigami.Theme.colorSet: Kirigami.Theme.View
             Layout.minimumHeight: childrenRect.height
             Layout.fillWidth: true
-            color: Kirigami.Theme.backgroundColor
             height: childrenRect.height
             width: parent.width
-            ColumnLayout {
+            background: Rectangle {
+                color: Kirigami.Theme.backgroundColor
+            }
+            contentItem: ColumnLayout {
                 width: parent.width
                 Kirigami.Label {
                     text: "View Set"
@@ -73,16 +110,17 @@ Kirigami.ScrollablePage {
             }
         }
 
-        Rectangle {
+        Controls.Frame {
             Kirigami.Theme.inherit: false
             Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
             Layout.minimumHeight: childrenRect.height
             Layout.fillWidth: true
-            color: Kirigami.Theme.backgroundColor
             height: childrenRect.height
             width: parent.width
-            ColumnLayout {
-                width: parent.width
+            background: Rectangle {
+                color: Kirigami.Theme.backgroundColor
+            }
+            contentItem: ColumnLayout {
                 Kirigami.Label {
                     text: "Complementary Set"
                 }
@@ -98,22 +136,27 @@ Kirigami.ScrollablePage {
             }
         }
 
-        Rectangle {
-            Kirigami.Theme.inherit: false
-            Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
-            color: Kirigami.Theme.backgroundColor
-            Layout.minimumHeight: 30
-            Layout.fillWidth: true
-            Rectangle {
-                color: Kirigami.Theme.textColor
-                width: parent.width
-                height: 9
+        GridLayout {
+            columns: 2
+            Kirigami.Label {
+                text: "Global Drawer color set:"
+                Layout.alignment: Qt.AlignRight
             }
-        }
-        Controls.ComboBox {
-            currentIndex: 1
-            model: ["Window", "View", "Complementary"]
-            onCurrentTextChanged: applicationWindow().globalDrawer.Kirigami.Theme.colorSet = currentText
+            Controls.ComboBox {
+                currentIndex: 1
+                model: ["Window", "View", "Complementary"]
+                onCurrentTextChanged: applicationWindow().globalDrawer.Kirigami.Theme.colorSet = currentText
+            }
+
+            Kirigami.Label {
+                text: "Page color set:"
+                Layout.alignment: Qt.AlignRight
+            }
+            Controls.ComboBox {
+                currentIndex: 0
+                model: ["Window", "View", "Complementary"]
+                onCurrentTextChanged: page.Kirigami.Theme.colorSet = currentText
+            }
         }
     }
 }
