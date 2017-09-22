@@ -419,7 +419,7 @@ QImage DesktopIcon::findIcon(const QSize &size)
         }
         QIcon icon(iconSource);
         if (icon.availableSizes().isEmpty()) {
-            icon = QIcon::fromTheme(iconSource);
+            icon = m_theme->iconFromTheme(iconSource);
         }
         if (!icon.availableSizes().isEmpty()){
             img = icon.pixmap(size, iconMode(), QIcon::On).toImage();

@@ -315,7 +315,7 @@ PlatformTheme *PlatformTheme::qmlAttachedProperties(QObject *object)
         QDir dir(path + "/kf5/kirigami");
         for (const QString &fileName : dir.entryList(QDir::Files)) {
             //TODO: env variable?
-            if (fileName.startsWith("kirigamiplasmaintegration")) {
+            if (fileName.startsWith("plasmadesktopintegration")) {
                 QPluginLoader loader(dir.absoluteFilePath(fileName));
                 QObject *plugin = loader.instance();
                 //TODO: load actually a factory as plugin
