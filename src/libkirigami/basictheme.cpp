@@ -218,42 +218,50 @@ void BasicTheme::syncColors()
 
 QColor BasicTheme::buttonTextColor() const
 {
+    qWarning()<<"WARNING: buttonTextColor is deprecated, use textColor with colorSet: Theme.Button instead";
     return m_buttonTextColor;
 }
 
 QColor BasicTheme::buttonBackgroundColor() const
 {
+    qWarning()<<"WARNING: buttonBackgroundColor is deprecated, use backgroundColor with colorSet: Theme.Button instead";
     return m_buttonBackgroundColor;
 }
 
 QColor BasicTheme::buttonHoverColor() const
 {
+    qWarning()<<"WARNING: buttonHoverColor is deprecated, use backgroundColor with colorSet: Theme.Button instead";
     return m_buttonHoverColor;
 }
 
 QColor BasicTheme::buttonFocusColor() const
 {
+    qWarning()<<"WARNING: buttonFocusColor is deprecated, use backgroundColor with colorSet: Theme.Button instead";
     return m_buttonFocusColor;
 }
 
 
 QColor BasicTheme::viewTextColor() const
 {
+    qWarning()<<"WARNING: viewTextColor is deprecated, use backgroundColor with colorSet: Theme.View instead";
     return m_viewTextColor;
 }
 
 QColor BasicTheme::viewBackgroundColor() const
 {
+    qWarning()<<"WARNING: viewBackgroundColor is deprecated, use backgroundColor with colorSet: Theme.View instead";
     return m_viewBackgroundColor;
 }
 
 QColor BasicTheme::viewHoverColor() const
 {
+    qWarning()<<"WARNING: viewHoverColor is deprecated, use backgroundColor with colorSet: Theme.View instead";
     return m_viewHoverColor;
 }
 
 QColor BasicTheme::viewFocusColor() const
 {
+    qWarning()<<"WARNING: viewFocusColor is deprecated, use backgroundColor with colorSet: Theme.View instead";
     return m_viewFocusColor;
 }
 

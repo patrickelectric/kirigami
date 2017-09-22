@@ -30,6 +30,29 @@ Kirigami.ScrollablePage {
         color: Kirigami.Theme.backgroundColor
     }
     ColumnLayout {
+        GridLayout {
+            columns: 2
+            Kirigami.Label {
+                text: "Global Drawer color set:"
+                Layout.alignment: Qt.AlignRight
+            }
+            Controls.ComboBox {
+                currentIndex: 1
+                model: ["Window", "View", "Complementary"]
+                onCurrentTextChanged: applicationWindow().globalDrawer.Kirigami.Theme.colorSet = currentText
+            }
+
+            Kirigami.Label {
+                text: "Page color set:"
+                Layout.alignment: Qt.AlignRight
+            }
+            Controls.ComboBox {
+                currentIndex: 0
+                model: ["Window", "View", "Complementary"]
+                onCurrentTextChanged: page.Kirigami.Theme.colorSet = currentText
+            }
+        }
+
         Controls.Frame {
             Kirigami.Theme.inherit: true
             Layout.minimumHeight: childrenRect.height
@@ -136,27 +159,13 @@ Kirigami.ScrollablePage {
             }
         }
 
-        GridLayout {
-            columns: 2
-            Kirigami.Label {
-                text: "Global Drawer color set:"
-                Layout.alignment: Qt.AlignRight
-            }
-            Controls.ComboBox {
-                currentIndex: 1
-                model: ["Window", "View", "Complementary"]
-                onCurrentTextChanged: applicationWindow().globalDrawer.Kirigami.Theme.colorSet = currentText
-            }
-
-            Kirigami.Label {
-                text: "Page color set:"
-                Layout.alignment: Qt.AlignRight
-            }
-            Controls.ComboBox {
-                currentIndex: 0
-                model: ["Window", "View", "Complementary"]
-                onCurrentTextChanged: page.Kirigami.Theme.colorSet = currentText
-            }
+        Controls.Button {
+            Kirigami.Theme.colorSet: Kirigami.Theme.Button
+            Kirigami.Theme.inherit: false
+            text: "Fixed Color Button"
+        }
+        Controls.Button {
+            text: "Dynamic Color Button"
         }
     }
 }
