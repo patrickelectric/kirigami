@@ -423,7 +423,7 @@ QImage DesktopIcon::findIcon(const QSize &size)
         }
         if (!icon.availableSizes().isEmpty()){
             img = icon.pixmap(size, iconMode(), QIcon::On).toImage();
-            if (iconSource.endsWith("-symbolic")) {
+            if (icon.isMask()) {
                 QPainter p(&img);
                 p.setCompositionMode(QPainter::CompositionMode_SourceIn);
                 p.fillRect(img.rect(), m_theme->textColor());

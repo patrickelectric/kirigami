@@ -24,7 +24,7 @@ import org.kde.kirigami 2.2 as Kirigami
 
 Kirigami.ScrollablePage {
     id: page
-    title: "Color Scopes"
+    title: "Color Sets"
 
     ColumnLayout {
         Rectangle {
@@ -34,11 +34,11 @@ Kirigami.ScrollablePage {
             ColumnLayout {
                 width: parent.width
                 Kirigami.Label {
-                    text: "Window scope"
+                    text: "Window Set"
                 }
                 Kirigami.BasicListItem {
                     width: parent.width
-                    icon: "go-next"
+                    icon: "media-record-symbolic"
                     label: "Delegate1"
                 }
                 Kirigami.BasicListItem {
@@ -59,11 +59,11 @@ Kirigami.ScrollablePage {
             ColumnLayout {
                 width: parent.width
                 Kirigami.Label {
-                    text: "View scope"
+                    text: "View Set"
                 }
                 Kirigami.BasicListItem {
                     width: parent.width
-                    icon: "go-next"
+                    icon: "media-record-symbolic"
                     label: "Delegate1"
                 }
                 Kirigami.BasicListItem {
@@ -84,11 +84,11 @@ Kirigami.ScrollablePage {
             ColumnLayout {
                 width: parent.width
                 Kirigami.Label {
-                    text: "Complementary scope"
+                    text: "Complementary Set"
                 }
                 Kirigami.BasicListItem {
                     width: parent.width
-                    icon: "go-next"
+                    icon: "media-record-symbolic"
                     label: "Delegate1"
                 }
                 Kirigami.BasicListItem {

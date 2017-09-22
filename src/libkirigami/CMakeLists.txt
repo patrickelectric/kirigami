@@ -29,6 +29,7 @@ target_link_libraries(KF5Kirigami2
     PRIVATE
         Qt5::Qml
         Qt5::Quick
+        Qt5::QuickControls2
 )
 
 set_target_properties(KF5Kirigami2 PROPERTIES

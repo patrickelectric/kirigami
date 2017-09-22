@@ -28,6 +28,7 @@
 #include <QQuickWindow>
 #include <QPluginLoader>
 #include <QDir>
+#include <QQuickStyle>
 
 namespace Kirigami {
 
@@ -304,7 +305,11 @@ void PlatformTheme::setPalette(const QPalette &palette)
 
 QIcon PlatformTheme::iconFromTheme(const QString &name)
 {
-    return QIcon::fromTheme(name);
+    QIcon icon = QIcon::fromTheme(name);
+    if (name.endsWith("-symbolic")) {
+        icon.setIsMask(true);
+    }
+    return icon;
 }
 
 
@@ -315,7 +320,7 @@ PlatformTheme *PlatformTheme::qmlAttachedProperties(QObject *object)
         QDir dir(path + "/kf5/kirigami");
         for (const QString &fileName : dir.entryList(QDir::Files)) {
             //TODO: env variable?
-            if (fileName.startsWith("plasmadesktopintegration")) {
+            if (fileName.startsWith(QQuickStyle::name())) {
                 QPluginLoader loader(dir.absoluteFilePath(fileName));
                 QObject *plugin = loader.instance();
                 //TODO: load actually a factory as plugin
