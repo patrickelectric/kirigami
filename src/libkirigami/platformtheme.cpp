@@ -28,6 +28,7 @@
 #include <QQuickWindow>
 #include <QPluginLoader>
 #include <QDir>
+#include <QTimer>
 #include <QQuickStyle>
 
 namespace Kirigami {
@@ -42,6 +43,7 @@ public:
 
 
     PlatformTheme *q;
+    QTimer *setColorCompressTimer;
     PlatformTheme::ColorSet m_colorSet = PlatformTheme::Window;
     QSet<PlatformTheme *> m_childThemes;
     QPointer<PlatformTheme> m_parentTheme;
@@ -60,7 +62,11 @@ public:
 
 PlatformThemePrivate::PlatformThemePrivate(PlatformTheme *q)
     : q(q)
-{}
+{
+    setColorCompressTimer = new QTimer(q);
+    setColorCompressTimer->setSingleShot(true);
+    setColorCompressTimer->setInterval(0);
+}
 
 PlatformThemePrivate::~PlatformThemePrivate()
 {}
@@ -102,6 +108,8 @@ PlatformTheme::PlatformTheme(QObject *parent)
     : QObject(parent),
       d(new PlatformThemePrivate(this))
 {
+    connect(d->setColorCompressTimer, &QTimer::timeout,
+            this, &PlatformTheme::colorsChanged);
     d->findParentStyle();
 
     if (QQuickItem *item = qobject_cast<QQuickItem *>(parent)) {
@@ -139,7 +147,7 @@ void PlatformTheme::setColorSet(PlatformTheme::ColorSet colorSet)
     }
 
     emit colorSetChanged();
-    emit colorsChanged();
+    d->setColorCompressTimer->start();
 }
 
 PlatformTheme::ColorSet PlatformTheme::colorSet() const
@@ -208,7 +216,7 @@ void PlatformTheme::setTextColor(const QColor &color)
     }
 
     d->textColor = color;
-    emit colorsChanged();
+    d->setColorCompressTimer->start();
 }
 
 void PlatformTheme::setDisabledTextColor(const QColor &color)
@@ -218,7 +226,7 @@ void PlatformTheme::setDisabledTextColor(const QColor &color)
     }
 
     d->disabledTextColor = color;
-    emit colorsChanged();
+    d->setColorCompressTimer->start();
 }
 
 void PlatformTheme::setBackgroundColor(const QColor &color)
@@ -228,7 +236,7 @@ void PlatformTheme::setBackgroundColor(const QColor &color)
     }
 
     d->backgroundColor = color;
-    emit colorsChanged();
+    d->setColorCompressTimer->start();
 }
 
 void PlatformTheme::setHighlightColor(const QColor &color)
@@ -238,7 +246,7 @@ void PlatformTheme::setHighlightColor(const QColor &color)
     }
 
     d->highlightColor = color;
-    emit colorsChanged();
+    d->setColorCompressTimer->start();
 }
 
 void PlatformTheme::setHighlightedTextColor(const QColor &color)
@@ -248,7 +256,7 @@ void PlatformTheme::setHighlightedTextColor(const QColor &color)
     }
 
     d->highlightedTextColor = color;
-    emit colorsChanged();
+    d->setColorCompressTimer->start();
 }
 
 void PlatformTheme::setLinkColor(const QColor &color)
@@ -258,7 +266,7 @@ void PlatformTheme::setLinkColor(const QColor &color)
     }
 
     d->linkColor = color;
-    emit colorsChanged();
+    d->setColorCompressTimer->start();
 }
 
 void PlatformTheme::setVisitedLinkColor(const QColor &color)
@@ -268,7 +276,7 @@ void PlatformTheme::setVisitedLinkColor(const QColor &color)
     }
 
     d->visitedLinkColor = color;
-    emit colorsChanged();
+    d->setColorCompressTimer->start();
 }
 
 

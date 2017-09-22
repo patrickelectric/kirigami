@@ -165,6 +165,7 @@ Kirigami.ScrollablePage {
             text: "Fixed Color Button"
         }
         Controls.Button {
+            Kirigami.Theme.inherit: true
             text: "Dynamic Color Button"
         }
     }
