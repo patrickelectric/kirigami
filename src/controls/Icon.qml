@@ -58,6 +58,13 @@ Item {
      */
     property bool selected: false
 
+    /**
+     * isMask: bool
+     * true if the icon should be treated as a monochrome icon which can be tinted
+     * @since 2.2
+     */
+    property bool isMask: true
+
     implicitWidth: image.source != "" ? Units.iconSizes.smallMedium : 0
     implicitHeight: image.source != "" ? Units.iconSizes.smallMedium : 0
 
@@ -75,6 +82,6 @@ Item {
         source: image
         color: root.selected ? Theme.highlightedTextColor : Theme.textColor
         cached: true
-        visible: root.enabled && root.valid
+        visible: root.enabled && root.valid && root.isMask
     }
 }

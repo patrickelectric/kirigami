@@ -290,6 +290,7 @@ OverlayDrawer {
                             Layout.minimumWidth: Units.iconSizes.large
                             Layout.minimumHeight: width
                             visible: valid
+                            isMask: false
                             //TODO: find a better way to control selective coloring on Android
                             enabled: !Settings.isMobile
                         }
@@ -411,6 +412,7 @@ OverlayDrawer {
                                 enabled: model ? model.enabled : modelData.enabled
                                 opacity: enabled ? 1.0 : 0.3
                                 Icon {
+                                    isMask: true
                                     anchors {
                                         verticalCenter: contentItem.verticalCenter
                                         right: contentItem.right

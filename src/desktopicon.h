@@ -44,6 +44,7 @@ class DesktopIcon : public QQuickItem
     Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
     Q_PROPERTY(bool valid READ valid NOTIFY validChanged)
     Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
+    Q_PROPERTY(bool isMask READ isMask WRITE setIsMask NOTIFY isMaskChanged)
 
 public:
     DesktopIcon(QQuickItem *parent=0);
@@ -68,6 +69,9 @@ public:
     void setSelected(bool selected = true);
     bool selected() const;
 
+    void setIsMask(bool mask);
+    bool isMask() const;
+
     QSGNode* updatePaintNode(QSGNode* node, UpdatePaintNodeData* data) Q_DECL_OVERRIDE;
 
 Q_SIGNALS:
@@ -77,6 +81,7 @@ Q_SIGNALS:
     void activeChanged();
     void validChanged();
     void selectedChanged();
+    void isMaskChanged();
 
 protected:
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) Q_DECL_OVERRIDE;
@@ -92,6 +97,7 @@ private:
     bool m_changed;
     bool m_active;
     bool m_selected;
+    bool m_isMask;
     QImage m_loadedImage;
 };
 

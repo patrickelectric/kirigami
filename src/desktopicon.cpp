@@ -134,7 +134,8 @@ DesktopIcon::DesktopIcon(QQuickItem *parent)
       m_smooth(false),
       m_changed(false),
       m_active(false),
-      m_selected(false)
+      m_selected(false),
+      m_isMask(false)
 {
     setFlag(ItemHasContents, true);
     //FIXME: not necessary anymore
@@ -223,6 +224,21 @@ void DesktopIcon::setSelected(const bool selected)
 bool DesktopIcon::selected() const
 {
     return m_selected;
+}
+
+void DesktopIcon::setIsMask(bool mask)
+{
+    if (m_isMask == mask) {
+        return;
+    }
+
+    m_isMask = mask;
+    emit isMaskChanged();
+}
+
+bool DesktopIcon::isMask() const
+{
+    return m_isMask;
 }
 
 int DesktopIcon::implicitWidth() const
@@ -423,7 +439,7 @@ QImage DesktopIcon::findIcon(const QSize &size)
         }
         if (!icon.availableSizes().isEmpty()){
             img = icon.pixmap(size, iconMode(), QIcon::On).toImage();
-            if (icon.isMask()) {
+            if (m_isMask || icon.isMask()) {
                 QPainter p(&img);
                 p.setCompositionMode(QPainter::CompositionMode_SourceIn);
                 p.fillRect(img.rect(), m_theme->textColor());

@@ -23,6 +23,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 
 PlasmaCore.IconItem {
     property bool selected: false
+    property bool isMask: false
     usesPlasmaTheme: false
     colorGroup: PlasmaCore.ColorScope.colorGroup
     onSelectedChanged: {
