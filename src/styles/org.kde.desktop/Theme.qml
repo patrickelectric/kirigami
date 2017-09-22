@@ -65,5 +65,5 @@ QtObject {
         }
     ]
 
-    function __propagateColorContext(object, context) {}
+    function __propagateColorSet(object, context) {}
 }

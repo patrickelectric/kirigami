@@ -133,7 +133,12 @@ BasicTheme::BasicTheme(QObject *parent)
     connect(basicThemeDeclarative()->m_colorSyncTimer, &QTimer::timeout,
             this, &BasicTheme::syncColors);
     connect(this, &BasicTheme::colorSetChanged,
-            this, &BasicTheme::syncColors);
+            this, [this]() {
+                syncColors();
+                if (basicThemeDeclarative()->instance(this)) {
+                    QMetaObject::invokeMethod(basicThemeDeclarative()->instance(this), "__propagateColorSet", Q_ARG(QVariant, QVariant::fromValue(this->parent())), Q_ARG(QVariant, colorSet()));
+                }
+            });
     syncColors();
 }
 

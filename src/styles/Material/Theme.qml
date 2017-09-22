@@ -66,7 +66,7 @@ QtObject {
         }
     ]
     //for internal use
-    function __propagateColorContext(object, context) {
+    function __propagateColorSet(object, context) {
         //TODO: actually check if it's a dark or light color
         if (context == Kirigami.Theme.Complementary) {
             object.Material.theme = Material.Dark;

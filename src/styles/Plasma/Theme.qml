@@ -50,7 +50,7 @@ QtObject {
 
     property variant defaultFont: theme.defaultFont
 
-    function __propagateColorContext(object, context) {
+    function __propagateColorSet(object, context) {
         object.PlasmaCore.ColorScope.inherit = false;
         switch(context) {
         case Kirigami.Theme.Window:
