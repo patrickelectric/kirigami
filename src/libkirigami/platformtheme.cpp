@@ -18,7 +18,8 @@
 */
 
 #include "platformtheme.h"
-#include "basictheme.h"
+#include "platformthemefactory.h"
+#include "basictheme_p.h"
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QGuiApplication>
@@ -27,6 +28,8 @@
 #include <QQuickWindow>
 #include <QPluginLoader>
 #include <QDir>
+
+namespace Kirigami {
 
 class PlatformThemePrivate {
 public:
@@ -317,9 +320,9 @@ PlatformTheme *PlatformTheme::qmlAttachedProperties(QObject *object)
                 QObject *plugin = loader.instance();
                 //TODO: load actually a factory as plugin
 
-                PlatformTheme *theme = qobject_cast<PlatformTheme *>(plugin);
-                if (theme) {
-                    return theme;
+                PlatformThemeFactory *factory = qobject_cast<PlatformThemeFactory *>(plugin);
+                if (factory) {
+                    return factory->create(object);
                 }
             }
         }
@@ -338,5 +341,6 @@ QUrl PlatformTheme::fallbackThemeQmlPath()
     return BasicTheme::basicThemeDeclarative()->qmlPath();
 }
 
+}
 
 #include "moc_platformtheme.cpp"

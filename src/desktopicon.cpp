@@ -158,10 +158,10 @@ void DesktopIcon::setSource(const QVariant &icon)
     m_changed = true;
 
     if (!m_theme) {
-        m_theme = static_cast<PlatformTheme *>(qmlAttachedPropertiesObject<PlatformTheme>(this, true));
+        m_theme = static_cast<Kirigami::PlatformTheme *>(qmlAttachedPropertiesObject<Kirigami::PlatformTheme>(this, true));
         Q_ASSERT(m_theme);
 
-        connect(m_theme, &PlatformTheme::colorsChanged, this, [this]() {
+        connect(m_theme, &Kirigami::PlatformTheme::colorsChanged, this, [this]() {
             m_changed = true;
             update();
         });

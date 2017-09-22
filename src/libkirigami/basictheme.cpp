@@ -17,7 +17,7 @@
 *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#include "basictheme.h"
+#include "basictheme_p.h"
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QGuiApplication>
@@ -26,6 +26,7 @@
 #include <QQuickWindow>
 #include <QTimer>
 
+namespace Kirigami {
 
 class BasicThemeDeclarativeSingleton
 {
@@ -256,4 +257,6 @@ BasicThemeDeclarative *BasicTheme::basicThemeDeclarative()
     return &privateBasicThemeDeclarativeSelf->self;
 }
 
-#include "moc_basictheme.cpp"
+}
+
+#include "moc_basictheme_p.cpp"

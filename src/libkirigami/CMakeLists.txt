@@ -3,6 +3,7 @@
 set(libkirigami_SRCS
     platformtheme.cpp
     basictheme.cpp
+    platformthemefactory.cpp
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
@@ -39,6 +40,7 @@ set_target_properties(KF5Kirigami2 PROPERTIES
 ecm_generate_headers(Kirigami2_HEADERS
     HEADER_NAMES
     PlatformTheme
+    PlatformThemeFactory
 
     REQUIRED_HEADERS Kirigami2_HEADERS
 )

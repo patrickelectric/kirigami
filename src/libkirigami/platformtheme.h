@@ -27,6 +27,8 @@
 
 #include <kirigami2_export.h>
 
+namespace Kirigami {
+
 class PlatformThemePrivate;
 
 class KIRIGAMI2_EXPORT PlatformTheme : public QObject
@@ -46,7 +48,7 @@ class KIRIGAMI2_EXPORT PlatformTheme : public QObject
     Q_PROPERTY(QPalette palette READ palette NOTIFY paletteChanged)
 
     Q_PROPERTY(bool inherit READ inherit WRITE setInherit NOTIFY inheritChanged)
-    Q_PROPERTY(PlatformTheme::ColorSet colorSet READ colorSet WRITE setColorSet NOTIFY colorSetChanged)
+    Q_PROPERTY(ColorSet colorSet READ colorSet WRITE setColorSet NOTIFY colorSetChanged)
 
     Q_ENUMS(ColorSet)
 
@@ -124,11 +126,8 @@ private:
     friend class PlatformThemePrivate;
 };
 
-QML_DECLARE_TYPEINFO(PlatformTheme, QML_HAS_ATTACHED_PROPERTIES)
+}
 
-QT_BEGIN_NAMESPACE
-#define PlatformTheme_iid "org.kde.kirigami.PlatformTheme"
-Q_DECLARE_INTERFACE(PlatformTheme, PlatformTheme_iid)
-QT_END_NAMESPACE
+QML_DECLARE_TYPEINFO(Kirigami::PlatformTheme, QML_HAS_ATTACHED_PROPERTIES)
 
 #endif // PLATFORMTHEME_H

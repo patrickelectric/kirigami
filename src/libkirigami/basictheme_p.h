@@ -26,6 +26,8 @@
 #include <QColor>
 #include <QPointer>
 
+namespace Kirigami {
+
 class BasicTheme;
 
 class BasicThemeDeclarative
@@ -98,5 +100,6 @@ private:
     QColor m_viewFocusColor;
 };
 
+}
 
 #endif // BASICTHEME_H
