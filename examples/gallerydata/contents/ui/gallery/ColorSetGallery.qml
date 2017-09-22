@@ -37,6 +37,7 @@ Kirigami.ScrollablePage {
                 Layout.alignment: Qt.AlignRight
             }
             Controls.ComboBox {
+                Kirigami.Theme.inherit: true
                 currentIndex: 1
                 model: ["Window", "View", "Complementary"]
                 onCurrentTextChanged: applicationWindow().globalDrawer.Kirigami.Theme.colorSet = currentText
@@ -47,6 +48,7 @@ Kirigami.ScrollablePage {
                 Layout.alignment: Qt.AlignRight
             }
             Controls.ComboBox {
+                Kirigami.Theme.inherit: true
                 currentIndex: 0
                 model: ["Window", "View", "Complementary"]
                 onCurrentTextChanged: page.Kirigami.Theme.colorSet = currentText
