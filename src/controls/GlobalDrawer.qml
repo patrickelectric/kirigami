@@ -65,7 +65,7 @@ import "templates/private"
  */
 OverlayDrawer {
     id: root
-    edge: Qt.LeftEdge
+    edge: Qt.application.layoutDirection == Qt.RightToLeft ? Qt.RightEdge : Qt.LeftEdge
 
     /**
      * title: string
@@ -392,7 +392,7 @@ OverlayDrawer {
                         BasicListItem {
                             visible: level > 0
                             supportsMouseEvents: true
-                            icon: "go-previous"
+                            icon: (LayoutMirroring.enabled ? "go-previous-symbolic-rtl" : "go-previous-symbolic")
                             label: qsTr("Back")
                             separatorVisible: false
                             onClicked: stackView.pop()
@@ -421,7 +421,7 @@ OverlayDrawer {
                                     height: Units.iconSizes.smallMedium
                                     selected: listItem.checked || listItem.pressed
                                     width: height
-                                    source: "go-next"
+                                    source: (LayoutMirroring.enabled ? "go-next-symbolic-rtl" : "go-next-symbolic")
                                     visible: modelData.children!==undefined && modelData.children.length > 0
                                 }
 

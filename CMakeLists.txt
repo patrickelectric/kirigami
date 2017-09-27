@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
-set(KF5_VERSION "5.37.0") # handled by release scripts
-set(KF5_DEP_VERSION "5.37.0") # handled by release scripts
+set(KF5_VERSION "5.39.0") # handled by release scripts
+set(KF5_DEP_VERSION "5.38.0") # handled by release scripts
 
 project(kirigami2 VERSION ${KF5_VERSION})
 
@@ -34,7 +34,7 @@ ELSE(STATIC_LIBRARY)
 
 ################# set KDE specific information #################
 
-find_package(ECM 5.37.0 NO_MODULE)
+find_package(ECM 5.38.0 NO_MODULE)
 set_package_properties(ECM PROPERTIES TYPE REQUIRED DESCRIPTION "Extra CMake Modules." URL "https://projects.kde.org/projects/kdesupport/extra-cmake-modules")
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
@@ -92,7 +92,7 @@ endif()
 
 if(PLASMA_ENABLED)
 # treat plasma as an optional dep: full functionality is expected with only Qt
-find_package(KF5Plasma ${KF5_DEP_VERSION})
+find_package(KF5 ${KF5_DEP_VERSION} COMPONENTS Plasma)
 set_package_properties(KF5Plasma PROPERTIES DESCRIPTION "Plasma framework"
                        TYPE OPTIONAL
                        PURPOSE "Optional Look and feel integration with Plasma Mobile."
