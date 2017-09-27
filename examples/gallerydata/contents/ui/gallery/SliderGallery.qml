@@ -93,6 +93,7 @@ ScrollablePage {
                         text: slider2.position.toFixed(1)
                     }
                 }
+                Controls.RangeSlider {}
                 Label {
                     text: "Vertical:"
                 }
