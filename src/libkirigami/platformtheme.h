@@ -35,6 +35,21 @@ class KIRIGAMI2_EXPORT PlatformTheme : public QObject
 {
     Q_OBJECT
 
+    /**
+     * This enumeration describes the color set for which a color is being selected.
+     *
+     * Color sets define a color "environment", suitable for drawing all parts of a
+     * given region. Colors from different sets should not be combined.
+     */
+    Q_PROPERTY(ColorSet colorSet READ colorSet WRITE setColorSet NOTIFY colorSetChanged)
+
+    /**
+     * If true, the colorSet will be inherited from the colorset of a theme of one
+     * of the ancestor items
+     * default: true
+     */
+    Q_PROPERTY(bool inherit READ inherit WRITE setInherit NOTIFY inheritChanged)
+
     // colors
     Q_PROPERTY(QColor textColor READ textColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor disabledTextColor READ disabledTextColor NOTIFY colorsChanged)
@@ -44,11 +59,9 @@ class KIRIGAMI2_EXPORT PlatformTheme : public QObject
     Q_PROPERTY(QColor linkColor READ linkColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor visitedLinkColor READ visitedLinkColor NOTIFY colorsChanged)
 
+    // font and palette
     Q_PROPERTY(QFont defaultFont READ defaultFont NOTIFY defaultFontChanged)
     Q_PROPERTY(QPalette palette READ palette NOTIFY paletteChanged)
-
-    Q_PROPERTY(bool inherit READ inherit WRITE setInherit NOTIFY inheritChanged)
-    Q_PROPERTY(ColorSet colorSet READ colorSet WRITE setColorSet NOTIFY colorSetChanged)
 
     Q_ENUMS(ColorSet)
 
@@ -70,7 +83,6 @@ public:
 
     bool inherit() const;
     void setInherit(bool inherit);
-
 
     QColor textColor() const;
     QColor disabledTextColor() const;
@@ -115,6 +127,7 @@ public:
     static QUrl fallbackThemeQmlPath();
 
 Q_SIGNALS:
+    //TODO: parameters to signals as this is also a c++ api
     void colorsChanged();
     void defaultFontChanged();
     void colorSetChanged();
