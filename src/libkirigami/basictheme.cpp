@@ -168,6 +168,12 @@ QStringList BasicTheme::keys() const
     case BasicTheme::View:\
         color = basicThemeDeclarative()->instance(this)->property("view"#upperCaseColor).value<QColor>();\
         break;\
+    case BasicTheme::Selection:\
+        color = basicThemeDeclarative()->instance(this)->property("selection"#upperCaseColor).value<QColor>();\
+        break;\
+    case BasicTheme::Tooltip:\
+        color = basicThemeDeclarative()->instance(this)->property("tooltip"#upperCaseColor).value<QColor>();\
+        break;\
     case BasicTheme::Complementary:\
         color = basicThemeDeclarative()->instance(this)->property("complementary"#upperCaseColor).value<QColor>();\
         break;\
@@ -196,9 +202,23 @@ void BasicTheme::syncColors()
     }{
         setHighlightedTextColor(PROXYCOLOR(highlightedTextColor, HighlightedTextColor));
     }{
+        setActiveTextColor(PROXYCOLOR(activeTextColor, ActiveTextColor));
+    }{
         setLinkColor(PROXYCOLOR(linkColor, LinkColor));
     }{
         setVisitedLinkColor(PROXYCOLOR(visitedLinkColor, VisitedLinkColor));
+    }{
+        setNegativeTextColor(PROXYCOLOR(negativeTextColor, NegativeTextColor));
+    }{
+        setNeutralTextColor(PROXYCOLOR(neutralTextColor, NeutralTextColor));
+    }{
+        setPositiveTextColor(PROXYCOLOR(positiveTextColor, PositiveTextColor));
+    }{
+        RESOLVECOLOR(hoverColor, HoverColor);
+        setHoverColor(color);
+    }{
+        RESOLVECOLOR(focusColor, FocusColor);
+        setFocusColor(color);
     }
 
     //legacy

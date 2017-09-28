@@ -210,7 +210,7 @@ QColor PlatformTheme::backgroundColor() const
 
 QColor PlatformTheme::activeTextColor() const
 {
-    return d->linkColor;
+    return d->activeTextColor;
 }
 
 QColor PlatformTheme::linkColor() const

@@ -30,8 +30,13 @@ QtObject {
     property color highlightColor: theme.highlightColor
     property color highlightedTextColor: theme.highlightedTextColor
     property color backgroundColor: theme.backgroundColor
+    //TODO: don't make this invisible
+    property color activeTextColor: theme.highlightColor
     property color linkColor: theme.linkColor
     property color visitedLinkColor: theme.visitedLinkColor
+    property color negativeTextColor: theme.negativeTextColor
+    property color neutralTextColor: theme.neutralTextColor
+    property color positiveTextColor: theme.positiveTextColor
 
     property color buttonTextColor: theme.buttonTextColor
     property color buttonBackgroundColor: theme.buttonBackgroundColor
@@ -42,6 +47,16 @@ QtObject {
     property color viewBackgroundColor: theme.viewBackgroundColor
     property color viewHoverColor: theme.viewHoverColor
     property color viewFocusColor: theme.viewFocusColor
+
+    property color selectionTextColor: theme.highlightedTextColor
+    property color selectionBackgroundColor: theme.highlightColor
+    property color selectionHoverColor: theme.buttonHoverColor
+    property color selectionFocusColor: theme.buttonFocusColor
+
+    property color tooltipTextColor: theme.complementaryTextColor
+    property color tooltipBackgroundColor: theme.complementaryBackgroundColor
+    property color tooltipHoverColor: theme.complementaryHoverColor
+    property color tooltipFocusColor: theme.complementaryFocusColor
 
     property color complementaryTextColor: theme.complementaryTextColor
     property color complementaryBackgroundColor: theme.complementaryBackgroundColor
@@ -61,6 +76,12 @@ QtObject {
             break;
         case Kirigami.Theme.View:
             object.PlasmaCore.ColorScope.colorGroup = PlasmaCore.Theme.ViewColorGroup;
+            break;
+        case Kirigami.Theme.Selection:
+            object.PlasmaCore.ColorScope.colorGroup = PlasmaCore.Theme.NormalColorGroup;
+            break;
+        case Kirigami.Theme.Tooltip:
+            object.PlasmaCore.ColorScope.colorGroup = PlasmaCore.Theme.ComplementaryColorGroup;
             break;
         case Kirigami.Theme.Complementary:
             object.PlasmaCore.ColorScope.colorGroup = PlasmaCore.Theme.ComplementaryColorGroup;

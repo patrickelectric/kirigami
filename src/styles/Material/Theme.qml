@@ -38,8 +38,14 @@ QtObject {
     //FIXME: something better?
     property color highlightedTextColor: theme.Material.background
     property color backgroundColor: theme.Material.background
-    property color linkColor: "#2196F3"
-    property color visitedLinkColor: "#2196F3"
+    property color activeTextColor: theme.Material.primary
+    property color linkColor: "#2980B9"
+    property color visitedLinkColor: "#7F8C8D"
+    property color hoverColor: theme.Material.highlightedButtonColor
+    property color focusColor: theme.Material.highlightedButtonColor
+    property color negativeTextColor: "#DA4453"
+    property color neutralTextColor: "#F67400"
+    property color positiveTextColor: "#27AE60"
 
     property color buttonTextColor: theme.Material.foreground
     property color buttonBackgroundColor: theme.Material.buttonColor
@@ -51,10 +57,20 @@ QtObject {
     property color viewHoverColor: theme.Material.listHighlightColor
     property color viewFocusColor: theme.Material.listHighlightColor
 
+    property color selectionTextColor: theme.Material.primaryHighlightedTextColor
+    property color selectionBackgroundColor: theme.Material.textSelectionColor
+    property color selectionHoverColor: theme.Material.highlightedButtonColor
+    property color selectionFocusColor: theme.Material.highlightedButtonColor
+
+    property color tooltipTextColor: fontMetrics.Material.foreground
+    property color tooltipBackgroundColor: fontMetrics.Material.tooltipColor
+    property color tooltipHoverColor: fontMetrics.Material.highlightedButtonColor
+    property color tooltipFocusColor: fontMetrics.Material.highlightedButtonColor
+
     property color complementaryTextColor: fontMetrics.Material.foreground
     property color complementaryBackgroundColor: fontMetrics.Material.background
-    property color complementaryHoverColor: fontMetrics.Material.listHighlightColor
-    property color complementaryFocusColor: fontMetrics.Material.listHighlightColor
+    property color complementaryHoverColor: theme.Material.highlightedButtonColor
+    property color complementaryFocusColor: theme.Material.highlightedButtonColor
 
     property font defaultFont: fontMetrics.font
 
