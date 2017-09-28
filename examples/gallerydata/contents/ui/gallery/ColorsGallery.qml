@@ -52,12 +52,16 @@ ScrollablePage {
     function setName(id) {
         switch(id) {
         case 0:
-            return "Theme.Window";
-        case 1:
-            return "Theme.Button";
-        case 2:
             return "Theme.View";
+        case 1:
+            return "Theme.Window";
+        case 2:
+            return "Theme.Button";
         case 3:
+            return "Theme.Selection";
+        case 4:
+            return "Theme.Tooltip";
+        case 5:
             return "Theme.Complementary";
         }
     }
