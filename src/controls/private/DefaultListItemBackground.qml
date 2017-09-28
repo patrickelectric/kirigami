@@ -27,7 +27,7 @@ Rectangle {
     visible: listItem.ListView.view ? listItem.ListView.view.highlight === null : true
     Rectangle {
         id: internal
-        property bool indicateActiveFocus: Settings.isMobile || listItem.activeFocus || (listItem.ListView.view ? listItem.ListView.view.activeFocus : false)
+        property bool indicateActiveFocus: listItem.pressed || Settings.isMobile || listItem.activeFocus || (listItem.ListView.view ? listItem.ListView.view.activeFocus : false)
         anchors.fill: parent
         visible: !Settings.isMobile
         color: listItem.activeBackgroundColor
