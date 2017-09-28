@@ -50,11 +50,20 @@ public:
 
     QColor textColor;
     QColor disabledTextColor;
-    QColor backgroundColor;
-    QColor highlightColor;
     QColor highlightedTextColor;
+    QColor activeTextColor;
     QColor linkColor;
     QColor visitedLinkColor;
+    QColor negativeTextColor;
+    QColor neutralTextColor;
+    QColor positiveTextColor;
+
+    QColor backgroundColor;
+    QColor highlightColor;
+
+    QColor focusColor;
+    QColor hoverColor;
+
     QFont font;
     QPalette palette;
     bool m_inherit = true;
@@ -199,6 +208,11 @@ QColor PlatformTheme::backgroundColor() const
     return d->backgroundColor;
 }
 
+QColor PlatformTheme::activeTextColor() const
+{
+    return d->linkColor;
+}
+
 QColor PlatformTheme::linkColor() const
 {
     return d->linkColor;
@@ -208,6 +222,32 @@ QColor PlatformTheme::visitedLinkColor() const
 {
     return d->visitedLinkColor;
 }
+
+QColor PlatformTheme::negativeTextColor() const
+{
+    return d->negativeTextColor;
+}
+
+QColor PlatformTheme::neutralTextColor() const
+{
+    return d->neutralTextColor;
+}
+
+QColor PlatformTheme::positiveTextColor() const
+{
+    return d->positiveTextColor;
+}
+
+QColor PlatformTheme::focusColor() const
+{
+    return d->focusColor;
+}
+
+QColor PlatformTheme::hoverColor() const
+{
+    return d->hoverColor;
+}
+
 
 void PlatformTheme::setTextColor(const QColor &color)
 {
@@ -259,6 +299,16 @@ void PlatformTheme::setHighlightedTextColor(const QColor &color)
     d->setColorCompressTimer->start();
 }
 
+void PlatformTheme::setActiveTextColor(const QColor &color)
+{
+    if (d->activeTextColor == color) {
+        return;
+    }
+
+    d->activeTextColor = color;
+    d->setColorCompressTimer->start();
+}
+
 void PlatformTheme::setLinkColor(const QColor &color)
 {
     if (d->linkColor == color) {
@@ -279,7 +329,55 @@ void PlatformTheme::setVisitedLinkColor(const QColor &color)
     d->setColorCompressTimer->start();
 }
 
+void PlatformTheme::setNegativeTextColor(const QColor &color)
+{
+    if (d->negativeTextColor == color) {
+        return;
+    }
 
+    d->negativeTextColor = color;
+    d->setColorCompressTimer->start();
+}
+
+void PlatformTheme::setNeutralTextColor(const QColor &color)
+{
+    if (d->neutralTextColor == color) {
+        return;
+    }
+
+    d->neutralTextColor = color;
+    d->setColorCompressTimer->start();
+}
+
+void PlatformTheme::setPositiveTextColor(const QColor &color)
+{
+    if (d->positiveTextColor == color) {
+        return;
+    }
+
+    d->positiveTextColor = color;
+    d->setColorCompressTimer->start();
+}
+
+void PlatformTheme::setHoverColor(const QColor &color)
+{
+    if (d->hoverColor == color) {
+        return;
+    }
+
+    d->hoverColor = color;
+    d->setColorCompressTimer->start();
+}
+
+void PlatformTheme::setFocusColor(const QColor &color)
+{
+    if (d->focusColor == color) {
+        return;
+    }
+
+    d->focusColor = color;
+    d->setColorCompressTimer->start();
+}
 
 QFont PlatformTheme::defaultFont() const
 {

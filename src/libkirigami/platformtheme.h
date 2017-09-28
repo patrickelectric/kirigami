@@ -50,14 +50,24 @@ class KIRIGAMI2_EXPORT PlatformTheme : public QObject
      */
     Q_PROPERTY(bool inherit READ inherit WRITE setInherit NOTIFY inheritChanged)
 
-    // colors
+    // foreground colors
     Q_PROPERTY(QColor textColor READ textColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor disabledTextColor READ disabledTextColor NOTIFY colorsChanged)
-    Q_PROPERTY(QColor highlightColor READ highlightColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor highlightedTextColor READ highlightedTextColor NOTIFY colorsChanged)
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor activeTextColor READ activeTextColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor linkColor READ linkColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor visitedLinkColor READ visitedLinkColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor negativeTextColor READ negativeTextColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor neutralTextColor READ neutralTextColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor positiveTextColor READ positiveTextColor NOTIFY colorsChanged)
+
+    //background colors
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor highlightColor READ highlightColor NOTIFY colorsChanged)
+
+    //decoration colors
+    Q_PROPERTY(QColor focusColor READ focusColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor hoverColor READ hoverColor NOTIFY colorsChanged)
 
     // font and palette
     Q_PROPERTY(QFont defaultFont READ defaultFont NOTIFY defaultFontChanged)
@@ -84,27 +94,46 @@ public:
     bool inherit() const;
     void setInherit(bool inherit);
 
+    //foreground colors
     QColor textColor() const;
     QColor disabledTextColor() const;
-    QColor backgroundColor() const;
-    QColor highlightColor() const;
     QColor highlightedTextColor() const;
-    //TODO: add positive/neutral/negative text
-    // hoverColor/focusColor would go there if the explicit properties are removed
-    //any other stuff missing from kcolorscheme?
-
-    //can we kill link and visited link?
+    QColor activeTextColor() const;
     QColor linkColor() const;
     QColor visitedLinkColor() const;
+    QColor negativeTextColor() const;
+    QColor neutralTextColor() const;
+    QColor positiveTextColor() const;
 
+    //background colors
+    QColor backgroundColor() const;
+    QColor highlightColor() const;
+    //TODO: add active/positive/neutral/negative backgrounds?
+
+    //decoration colors
+    QColor focusColor() const;
+    QColor hoverColor() const;
+    
     //Setters, not accessible from QML but from implementations
+    
+    //foreground colors
     void setTextColor(const QColor &color);
     void setDisabledTextColor(const QColor &color);
-    void setBackgroundColor(const QColor &color);
-    void setHighlightColor(const QColor &color);
     void setHighlightedTextColor(const QColor &color);
+    void setActiveTextColor(const QColor &color);
     void setLinkColor(const QColor &color);
     void setVisitedLinkColor(const QColor &color);
+    void setNegativeTextColor(const QColor &color);
+    void setNeutralTextColor(const QColor &color);
+    void setPositiveTextColor(const QColor &color);
+
+    //background colors
+    void setBackgroundColor(const QColor &color);
+    void setHighlightColor(const QColor &color);
+    
+    //decoration colors
+    void setFocusColor(const QColor &color);
+    void setHoverColor(const QColor &color);
 
 
     QFont defaultFont() const;
