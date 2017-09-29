@@ -29,6 +29,12 @@
 
 namespace Kirigami {
 
+/**
+ * @class KirigamiPluginFactory kirigamipluginfactory.h KirigamiPluginFactory
+ *
+ * This class is reimpleented by plugins to provide different implementations
+ * of PlatformTheme
+ */
 #ifdef KIRIGAMI_BUILD_TYPE_STATIC
 class KirigamiPluginFactory : public QObject
 #else
@@ -41,6 +47,11 @@ public:
     explicit KirigamiPluginFactory(QObject *parent = nullptr);
     ~KirigamiPluginFactory();
 
+    /**
+     * Creates an instance of PlatformTheme which can come out from
+     * an implementation provided by a plugin
+     * @param parent the parent object of the created PlatformTheme
+     */
     virtual PlatformTheme *createPlatformTheme(QObject *parent) = 0;
 };
 

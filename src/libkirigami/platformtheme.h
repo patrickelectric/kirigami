@@ -33,6 +33,13 @@ namespace Kirigami {
 
 class PlatformThemePrivate;
 
+/**
+ * @class PlatformTheme platformtheme.h PlatformTheme
+ *
+ * This class is the base for color management in Kirigami,
+ * different platforms can reimplement this class to integrate with
+ * system platform colors of a given platform
+ */
 #ifdef KIRIGAMI_BUILD_TYPE_STATIC
 class PlatformTheme : public QObject
 #else
@@ -57,22 +64,72 @@ class KIRIGAMI2_EXPORT PlatformTheme : public QObject
     Q_PROPERTY(bool inherit READ inherit WRITE setInherit NOTIFY inheritChanged)
 
     // foreground colors
+    /**
+     * Color for normal foregrounds, usually text, but not limited to it,
+     * anything that should be painted with a clear contrast should use this color
+     */
     Q_PROPERTY(QColor textColor READ textColor NOTIFY colorsChanged)
+
+    /**
+     * Foreground color for disabled areas, usually a mid-gray
+     */
     Q_PROPERTY(QColor disabledTextColor READ disabledTextColor NOTIFY colorsChanged)
+
+    /**
+     * Color for text that has been highlighted, often is a light color while normal text is dark
+     */
     Q_PROPERTY(QColor highlightedTextColor READ highlightedTextColor NOTIFY colorsChanged)
+
+    /**
+     * Foreground for areas that are active or requesting attention
+     */
     Q_PROPERTY(QColor activeTextColor READ activeTextColor NOTIFY colorsChanged)
+
+    /**
+     * Color for links
+     */
     Q_PROPERTY(QColor linkColor READ linkColor NOTIFY colorsChanged)
+
+    /**
+     * Color for visited links, usually a bit darker than linkColor
+     */
     Q_PROPERTY(QColor visitedLinkColor READ visitedLinkColor NOTIFY colorsChanged)
+
+    /**
+     * Foreground color for negative areas, such as critical error text
+     */
     Q_PROPERTY(QColor negativeTextColor READ negativeTextColor NOTIFY colorsChanged)
+
+    /**
+     * Foreground color for neutral areas, such as warning texts (but not critical)
+     */
     Q_PROPERTY(QColor neutralTextColor READ neutralTextColor NOTIFY colorsChanged)
+
+    /**
+     * Success messages, trusted content
+     */
     Q_PROPERTY(QColor positiveTextColor READ positiveTextColor NOTIFY colorsChanged)
 
     //background colors
+    /**
+     * The generic background color
+     */
     Q_PROPERTY(QColor backgroundColor READ backgroundColor NOTIFY colorsChanged)
+
+    /**
+     * The background color for selected areas
+     */
     Q_PROPERTY(QColor highlightColor READ highlightColor NOTIFY colorsChanged)
 
     //decoration colors
+    /**
+     * A decoration color that indicates active focus
+     */
     Q_PROPERTY(QColor focusColor READ focusColor NOTIFY colorsChanged)
+
+    /**
+     * A decoration color that indicates mouse hovering
+     */
     Q_PROPERTY(QColor hoverColor READ hoverColor NOTIFY colorsChanged)
 
     // font and palette
@@ -82,15 +139,14 @@ class KIRIGAMI2_EXPORT PlatformTheme : public QObject
     Q_ENUMS(ColorSet)
 
 public:
-    //kcolorscheme also has selection: this would replace highlightColor/highlightedTextColor which would become just
-    //wouldn't bother about tooltip for now, can always be added
+
     enum ColorSet {
-        View = 0,
-        Window,
-        Button,
-        Selection,
-        Tooltip,
-        Complementary
+        View = 0, /** Color set for item views, usually the lightest of all */
+        Window, /** Default Color set for windows and "chrome" areas */
+        Button, /** Color set used by buttons */
+        Selection, /** Color set used by selectged areas */
+        Tooltip, /** Color set used by tooltips */
+        Complementary /** Color set meant to be complementary to Window: usually is a dark theme for light themes */
     };
 
     explicit PlatformTheme(QObject *parent = 0);
