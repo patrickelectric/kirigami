@@ -65,6 +65,14 @@ Item {
      */
     property bool isMask: true
 
+    /**
+     * color: color
+     * Allow to set the main color of the icon as a particular color
+     * default: transparent
+     * @since 2.2
+     */
+    property color color: "transparent"
+
     implicitWidth: image.source != "" ? Units.iconSizes.smallMedium : 0
     implicitHeight: image.source != "" ? Units.iconSizes.smallMedium : 0
 
@@ -80,7 +88,7 @@ Item {
 
         anchors.fill: parent
         source: image
-        color: root.selected ? Theme.highlightedTextColor : Theme.textColor
+        color: root.selected ? Theme.highlightedTextColor : (root.color != "trasparent" ? root.color : Theme.textColor)
         cached: true
         visible: root.enabled && root.valid && root.isMask
     }

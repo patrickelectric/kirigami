@@ -24,6 +24,8 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 PlasmaCore.IconItem {
     property bool selected: false
     property bool isMask: false
+    //TODO: implement in libplasma
+    property color color: "transparent"
     usesPlasmaTheme: false
     colorGroup: PlasmaCore.ColorScope.colorGroup
     onSelectedChanged: {

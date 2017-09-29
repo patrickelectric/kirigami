@@ -170,5 +170,11 @@ Kirigami.ScrollablePage {
             Kirigami.Theme.inherit: true
             text: "Dynamic Color Button"
         }
+        Kirigami.Icon {
+            source: "media-record-symbolic"
+            color: "green"
+            Layout.minimumWidth: 32
+            Layout.minimumHeight: 32
+        }
     }
 }

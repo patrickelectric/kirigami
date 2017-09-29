@@ -241,6 +241,22 @@ bool DesktopIcon::isMask() const
     return m_isMask;
 }
 
+void DesktopIcon::setColor(const QColor &color)
+{
+    if (m_color == color) {
+        return;
+    }
+
+    m_color = color;
+    emit colorChanged();
+}
+
+QColor DesktopIcon::color() const
+{
+    return m_color;
+}
+
+
 int DesktopIcon::implicitWidth() const
 {
     return 32;
@@ -435,7 +451,7 @@ QImage DesktopIcon::findIcon(const QSize &size)
         }
         QIcon icon(iconSource);
         if (icon.availableSizes().isEmpty()) {
-            icon = m_theme->iconFromTheme(iconSource);
+            icon = m_theme->iconFromTheme(iconSource, m_color);
         }
         if (!icon.availableSizes().isEmpty()){
             img = icon.pixmap(size, iconMode(), QIcon::On).toImage();
