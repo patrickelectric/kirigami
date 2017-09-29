@@ -89,7 +89,7 @@ ScrollablePage {
     }
 
     footer: Rectangle {
-        color: Theme.viewBackground
+        color: Theme.backgroundColor
         height: Units.gridUnit * 3
         Controls.TextField {
             topPadding: 0

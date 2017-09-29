@@ -100,13 +100,13 @@ T2.ItemDelegate {
      * Note: if custom text elements are inserted in an AbstractListItem,
      * their color proprty will ahve to be manually binded with this property
      */
-    property color textColor: Theme.viewTextColor
+    property color textColor: Theme.textColor
 
     /**
      * backgroundColor: color
      * Color for the background of the item
      */
-    property color backgroundColor: Theme.viewBackgroundColor
+    property color backgroundColor: Theme.backgroundColor
 
     /**
      * activeTextColor: color

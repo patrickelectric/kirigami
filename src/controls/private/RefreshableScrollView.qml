@@ -134,7 +134,7 @@ P.ScrollView {
                 visible: supportsRefreshing && !refreshing && progress > 0
                 color: "transparent"
                 opacity: 0.8
-                border.color: Theme.viewBackgroundColor
+                border.color: Theme.backgroundColor
                 border.width: Math.ceil(Units.smallSpacing/4)
                 //also take into account the listview header height if present
                 property real progress: supportsRefreshing && !refreshing ? ((parent.y - busyIndicatorFrame.headerItemHeight)/busyIndicatorFrame.height) : 0

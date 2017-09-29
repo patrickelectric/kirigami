@@ -27,7 +27,7 @@ Kirigami.ScrollablePage {
 
     implicitWidth: Kirigami.Units.gridUnit * 20
     background: Rectangle {
-        color: Kirigami.Theme.viewBackgroundColor
+        color: Kirigami.Theme.backgroundColor
     }
 
     title: "Gallery"

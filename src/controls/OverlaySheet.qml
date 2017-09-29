@@ -100,7 +100,7 @@ T.OverlaySheet {
         }
         Rectangle {
             anchors.fill: parent
-            color: Theme.viewBackgroundColor
+            color: Theme.backgroundColor
         }
     }
 }

@@ -77,7 +77,7 @@ Kirigami.ScrollablePage {
     }
 
     background: Rectangle {
-        color: Kirigami.Theme.viewBackgroundColor
+        color: Kirigami.Theme.backgroundColor
     }
 
     ListView {
