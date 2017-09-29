@@ -2,6 +2,11 @@ project(kirigami)
 
 if (NOT STATIC_LIBRARY)
     ecm_create_qm_loader(kirigami_QM_LOADER libkirigami2plugin_qt)
+else()
+    set(KIRIGAMI_STATIC_FILES
+        libkirigami/basictheme.cpp
+        libkirigami/platformtheme.cpp
+        libkirigami/kirigamipluginfactory.cpp)
 endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libkirigami ${CMAKE_CURRENT_BINARY_DIR}/libkirigami)
@@ -12,6 +17,7 @@ set(kirigami_SRCS
     desktopicon.cpp
     settings.cpp
     ${kirigami_QM_LOADER}
+    ${KIRIGAMI_STATIC_FILES}
     )
 
 IF(STATIC_LIBRARY)

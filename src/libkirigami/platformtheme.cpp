@@ -18,7 +18,7 @@
 */
 
 #include "platformtheme.h"
-#include "platformthemefactory.h"
+#include "kirigamipluginfactory.h"
 #include "basictheme_p.h"
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -431,9 +431,9 @@ PlatformTheme *PlatformTheme::qmlAttachedProperties(QObject *object)
                 QObject *plugin = loader.instance();
                 //TODO: load actually a factory as plugin
 
-                PlatformThemeFactory *factory = qobject_cast<PlatformThemeFactory *>(plugin);
+                KirigamiPluginFactory *factory = qobject_cast<KirigamiPluginFactory *>(plugin);
                 if (factory) {
-                    return factory->create(object);
+                    return factory->createPlatformTheme(object);
                 }
             }
         }
