@@ -28,7 +28,11 @@
 #include <QQmlContext>
 #include <QQuickItem>
 
+#ifdef KIRIGAMI_BUILD_TYPE_STATIC
+#include "libkirigami/platformtheme.h"
+#else
 #include <platformtheme.h>
+#endif
 
 static QString s_selectedStyle;
 
@@ -54,9 +58,9 @@ void KirigamiPlugin::registerTypes(const char *uri)
 #if !defined(Q_OS_ANDROID) && !defined(Q_OS_IOS)
         m_stylesFallbackChain.prepend(QStringLiteral("org.kde.desktop"));
 #elif defined(Q_OS_ANDROID)
-        m_stylesFallbackChain.prepend(QStringLiteral("material"));
+        m_stylesFallbackChain.prepend(QStringLiteral("Material"));
 #else // do we have an iOS specific style?
-        m_stylesFallbackChain.prepend(QStringLiteral("material"));
+        m_stylesFallbackChain.prepend(QStringLiteral("Material"));
 #endif
     }
 

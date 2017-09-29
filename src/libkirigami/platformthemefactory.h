@@ -23,9 +23,17 @@
 #include "platformtheme.h"
 #include <QObject>
 
+#ifndef KIRIGAMI_BUILD_TYPE_STATIC
+#include <kirigami2_export.h>
+#endif
+
 namespace Kirigami {
 
+#ifdef KIRIGAMI_BUILD_TYPE_STATIC
+class PlatformThemeFactory : public QObject
+#else
 class KIRIGAMI2_EXPORT PlatformThemeFactory : public QObject
+#endif
 {
     Q_OBJECT
 

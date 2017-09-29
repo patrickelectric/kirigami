@@ -25,13 +25,19 @@
 #include <QColor>
 #include <QPalette>
 
+#ifndef KIRIGAMI_BUILD_TYPE_STATIC
 #include <kirigami2_export.h>
+#endif
 
 namespace Kirigami {
 
 class PlatformThemePrivate;
 
+#ifdef KIRIGAMI_BUILD_TYPE_STATIC
+class PlatformTheme : public QObject
+#else
 class KIRIGAMI2_EXPORT PlatformTheme : public QObject
+#endif
 {
     Q_OBJECT
 
