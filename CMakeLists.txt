@@ -45,6 +45,7 @@ include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(CMakePackageConfigHelpers)
 include(ECMPoQmTools)
+include(ECMQMLModules)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(ECMQtDeclareLoggingCategory)
@@ -98,6 +99,8 @@ set_package_properties(KF5Plasma PROPERTIES DESCRIPTION "Plasma framework"
                        PURPOSE "Optional Look and feel integration with Plasma Mobile."
                       )
 endif()
+
+ecm_find_qmlmodule(QtGraphicalEffects 1.0)
 
 ################# Enable C++11 features for clang and gcc #################
 
