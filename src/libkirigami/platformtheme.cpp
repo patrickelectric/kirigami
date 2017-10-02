@@ -129,9 +129,7 @@ PlatformTheme::PlatformTheme(QObject *parent)
             d->findParentStyle();
         });
     }
-
-    //TODO: event filter on font change.. but in the implementation
-//    connect(qApp, &QGuiApplication::fontDatabaseChanged, this, &PlatformTheme::defaultFontChanged);
+    //TODO: needs https://codereview.qt-project.org/#/c/206889/ for font changes
 }
 
 PlatformTheme::~PlatformTheme()
