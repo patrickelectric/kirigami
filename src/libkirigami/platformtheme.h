@@ -222,10 +222,10 @@ public:
 Q_SIGNALS:
     //TODO: parameters to signals as this is also a c++ api
     void colorsChanged();
-    void defaultFontChanged();
-    void colorSetChanged();
-    void paletteChanged();
-    void inheritChanged();
+    void defaultFontChanged(const QFont &font);
+    void colorSetChanged(Kirigami::PlatformTheme::ColorSet colorSet);
+    void paletteChanged(const QPalette &pal);
+    void inheritChanged(bool inherit);
 
 private:
     PlatformThemePrivate *d;

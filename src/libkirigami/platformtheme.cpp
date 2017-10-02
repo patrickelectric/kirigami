@@ -130,8 +130,8 @@ PlatformTheme::PlatformTheme(QObject *parent)
         });
     }
 
-    //TODO: correct?
-    connect(qApp, &QGuiApplication::fontDatabaseChanged, this, &PlatformTheme::defaultFontChanged);
+    //TODO: event filter on font change.. but in the implementation
+//    connect(qApp, &QGuiApplication::fontDatabaseChanged, this, &PlatformTheme::defaultFontChanged);
 }
 
 PlatformTheme::~PlatformTheme()
@@ -155,7 +155,7 @@ void PlatformTheme::setColorSet(PlatformTheme::ColorSet colorSet)
         }
     }
 
-    emit colorSetChanged();
+    emit colorSetChanged(colorSet);
     d->setColorCompressTimer->start();
 }
 
@@ -179,7 +179,7 @@ void PlatformTheme::setInherit(bool inherit)
     if (inherit && d->m_parentTheme) {
         setColorSet(d->m_parentTheme->colorSet());
     }
-    emit inheritChanged();
+    emit inheritChanged(inherit);
 }
 
 
@@ -391,7 +391,7 @@ void PlatformTheme::setDefaultFont(const QFont &font)
     }
 
     d->font = font;
-    emit defaultFontChanged();
+    emit defaultFontChanged(font);
 }
 
 QPalette PlatformTheme::palette() const
@@ -406,7 +406,7 @@ void PlatformTheme::setPalette(const QPalette &palette)
     }
 
     d->palette = palette;
-    emit paletteChanged();
+    emit paletteChanged(palette);
 }
 
 QIcon PlatformTheme::iconFromTheme(const QString &name, const QColor &customColor)
